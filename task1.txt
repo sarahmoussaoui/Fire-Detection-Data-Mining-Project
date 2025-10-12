@@ -1,0 +1,7 @@
+#ToDo For next TP:
+  Download the datasets
+  Load them through your code (each format necessitate a diff lib or function)
+  Get familiar with geopandas
+  Download Algeria and tunisia shapefile to get their "polygon" representation
+  Clip the worldwide datasets to the algeria and tunisia zones
+  Don't forget to document all your steps for the final report
