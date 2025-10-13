@@ -4,3 +4,10 @@ numpy
 matplotlib
 scikit-learn
 seaborn
+shapely
+pyproj
+rtree
+fiona
+rasterio
+tqdm
+pyodbc
