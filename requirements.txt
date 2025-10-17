@@ -11,3 +11,4 @@ fiona
 rasterio
 tqdm
 pyodbc
+dotenv
