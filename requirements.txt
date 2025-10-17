@@ -11,3 +11,7 @@ fiona
 rasterio
 tqdm
 pyodbc
+xarray
+rioxarray
+pyarrow
+fastparquet
