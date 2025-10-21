@@ -12,3 +12,4 @@ rasterio
 tqdm
 pyodbc
 dotenv
+rioxarray
