@@ -11,6 +11,5 @@ fiona
 rasterio
 tqdm
 pyodbc
-python-dotenv
-xarray
+dotenv
 rioxarray
