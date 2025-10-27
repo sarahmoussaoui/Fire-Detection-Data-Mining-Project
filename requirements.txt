@@ -14,3 +14,4 @@ pyodbc
 python-dotenv
 xarray
 rioxarray
+xlrd
