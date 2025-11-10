@@ -1,3 +1,28 @@
 fix echelle elevation --> done
 fix histogramme elevation distribution --> done
 add vizualisation -->done 
+
+
+
+
+Les infos li 3andi :
+
+• Preprocessing : 
+- ne pas supprimer les valeurs manquantes et outliers (sauf pour le fire dataset)
+- pour les dates manquantes on peut faire la moyenne entre la date d'avant et d'après
+- fire dataset khali ghir longitutde, latitude, classe
+
+- fles autres datasets : supprimer les features inutiles
+- Pour les features qui ont une forte correlation, on peut supprimer une d'entre elles
+
+• f fire dataset 3andna un seul x, mais f climate par exemple on a 12, donc une solution c'est de diviser en 4 saisons : 1, 2, 3, 4 ... donc on aura : tmin1, tmin2, ... tmin4 (les saisons c'est des colonnes fel merged dataset)
+
+• objectif du merge : considérer uniquement les feux de forêts, compléter avec des exemples qui ne sont pas des feux de forêts pous avoir des 1 et 0 et faire la classification
+
+• le merge se fait par rapport au fire dataset (si le merge est trop long on peut faire chaque dataset wa7do m3a fire puis merger le tout)
+
+• pour l'ajout de fire points kayan 2 approches :
+
+1- compléter que la partie nord du pays psk temak li kayan le plus de fire, on coupe par rapport a la longitude (délimitation Nord/Sud). Pour déterminer win tcouper lazam tajma3 Algeria w Tunisia f boxplot wa7ed.
+
+2- compléter tout le territoire mais dans ce cas on aura un dataset unbalanced
