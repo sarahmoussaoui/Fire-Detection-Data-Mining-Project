@@ -1,0 +1,3 @@
+preprocessing
+merge (keep resolution and type geometry) --> .nc compress
+in fire dataset: check column type (some values are interesting while some are not) --> check documentation

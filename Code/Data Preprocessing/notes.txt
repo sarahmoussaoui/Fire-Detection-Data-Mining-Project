@@ -1,0 +1,2 @@
+missing valeus: replace by mean mode med if less than 5% missing data (view methods in course),
+                 or predictive model if a lot of missing data
