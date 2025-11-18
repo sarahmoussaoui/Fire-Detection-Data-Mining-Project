@@ -15,7 +15,8 @@ Les infos li 3andi :
 - fles autres datasets : supprimer les features inutiles
 - Pour les features qui ont une forte correlation, on peut supprimer une d'entre elles
 
-• f fire dataset 3andna un seul x, mais f climate par exemple on a 12, donc une solution c'est de diviser en 4 saisons : 1, 2, 3, 4 ... donc on aura : tmin1, tmin2, ... tmin4 (les saisons c'est des colonnes fel merged dataset)
+• f fire dataset 3andna un seul x, mais f climate par exemple on a 12, donc une solution c'est de diviser en 4 saisons : 1, 2, 3, 4 ... 
+donc on aura : tmin1, tmin2, ... tmin4 (les saisons c'est des colonnes fel merged dataset)
 
 • objectif du merge : considérer uniquement les feux de forêts, compléter avec des exemples qui ne sont pas des feux de forêts pous avoir des 1 et 0 et faire la classification
 
