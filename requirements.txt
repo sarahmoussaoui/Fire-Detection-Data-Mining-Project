@@ -17,3 +17,4 @@ rioxarray
 xlrd
 fastparquet
 pyarrow
+imbalanced-learn
