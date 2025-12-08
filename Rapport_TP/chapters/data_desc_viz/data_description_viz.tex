@@ -1,0 +1,61 @@
+\section{Overview}
+
+This chapter presents the datasets used in the fire prediction task
+(soil, climate, elevation, land cover and fire occurrence) and the main
+visual explorations carried out on them. For each data source we
+describe:
+\begin{itemize}
+    \item the original format and spatial/temporal coverage,
+    \item the extraction and preprocessing steps applied to build the
+          common $0.1^{\circ}$ grid over Algeria--Tunisia,
+    \item the final features retained for modelling,
+    \item a set of exploratory visualisations highlighting key spatial
+          patterns and potential relationships with fire activity.
+\end{itemize}
+
+The goal is to provide a clear picture of what information is available
+in each layer and how it behaves over the study area before moving to
+the modelling stage.
+
+% --------------------------------------------------------------------
+% SOIL
+% --------------------------------------------------------------------
+\section{Soil data description and visualisation}
+\input{chapters/data_desc_viz/soil_description_viz.tex}
+
+% --------------------------------------------------------------------
+% CLIMATE
+% --------------------------------------------------------------------
+\section{Climate data description and visualisation}
+\input{chapters/data_desc_viz/climate_description_viz.tex}
+
+% --------------------------------------------------------------------
+% ELEVATION / TOPOGRAPHY
+% --------------------------------------------------------------------
+\section{Elevation data description and visualisation}
+\input{chapters/data_desc_viz/elevation_description_viz.tex}
+
+% --------------------------------------------------------------------
+% LAND COVER
+% --------------------------------------------------------------------
+\section{Land cover data description and visualisation}
+\input{chapters/data_desc_viz/landcover_description_viz.tex}
+
+% --------------------------------------------------------------------
+% FIRE OCCURRENCE
+% --------------------------------------------------------------------
+\section{Fire data description and visualisation}
+\input{chapters/data_desc_viz/fire_data_description_viz.tex}
+
+% (Optional)
+% --------------------------------------------------------------------
+% SUMMARY
+% --------------------------------------------------------------------
+\section{Summary}
+
+Across all datasets, we obtain a harmonised $0.1^{\circ}$ grid where each
+cell is described by soil, climate, topography, land cover and fire
+occurrence variables. The exploratory maps and distributions presented
+in this chapter reveal the main gradients (e.g.\ climatic aridity,
+vegetation cover, soil texture) that will later be exploited as
+predictors in the supervised and unsupervised learning experiments.
