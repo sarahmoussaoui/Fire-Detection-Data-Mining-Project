@@ -1,0 +1,66 @@
+\section{Soil Dataset Description}
+
+The soil dataset used in this study consists of \textbf{23,262 grid cells}
+($0.1^{\circ}$ resolution) covering Algeria and Tunisia . Each row corresponds to a
+regular grid-cell centroid (\texttt{x}, \texttt{y}) together with topsoil
+(0--20\,cm) physical and chemical attributes extracted from the Harmonized World
+Soil Database v2 (HWSD2). The total memory usage for the soil data is approximately \textbf{5.90 MB}. All features originate either from the D1 layer
+(topsoil) or categorical summaries at the Soil Mapping Unit (SMU) level.
+
+\subsection*{Spatial Columns}
+\textbf{x, y} (\textit{longitude, latitude}) specify the centroid of each cell.
+These coordinates enable spatial alignment with land cover, climate and
+ignition datasets used in fire modelling \citep{Giglio2013}.
+
+\subsection*{Identification Key}
+\textbf{HWSD2\_SMU\_ID} uniquely identifies the soil mapping unit associated with
+each cell. This ID links the grid to HWSD2 pedological information and ensures
+consistent reproducibility \citep{FAO2021}.
+
+\subsection*{Texture and Particle-Size Distribution}
+\textbf{COARSE} (\,\%) represents the proportion of fragments $>2$\,mm, influencing
+water retention and drying rates. High coarse content increases surface dryness
+and ignition probability \citep{Prieto2019}.  
+\textbf{SAND}, \textbf{SILT} and \textbf{CLAY} (\,\%) describe the granulometric
+composition. Sandy soils drain rapidly and dry faster, whereas clay-rich soils
+retain moisture and generally reduce fire susceptibility
+\citep{Bowman2009,Saatchi2012}.  
+\textbf{TEXTURE\_USDA} and \textbf{TEXTURE\_SOTER} provide categorical texture
+classes (USDA and SOTER standards). Texture strongly regulates infiltration,
+soil moisture availability and vegetation composition \citep{USDA2017,Batjes2016}.
+
+\subsection*{Density and Structural Properties}
+\textbf{BULK} (g\,cm$^{-3}$) measures dry soil density. Higher bulk density limits
+root penetration and reduces water storage capacity \citep{Certini2005}.  
+\textbf{REF\_BULK} is the expected bulk density estimated from pedotransfer
+functions, used to detect compaction anomalies \citep{Reynolds2018}.
+
+\subsection*{Organic Matter and Nutrients}
+\textbf{ORG\_CARBON} (\%) represents organic carbon content, a driver of both
+soil moisture retention and surface fuel accumulation \citep{DeGroot2009}.  
+\textbf{TOTAL\_N} (\%) influences vegetation productivity and post-fire biomass
+recovery \citep{Pausas2012}.  
+\textbf{CN\_RATIO} (C:N) governs decomposition rates; high ratios slow down decay
+and preserve surface litter, increasing flammability \citep{Fernandez2018}.
+
+\subsection*{Chemical and Exchange Properties}
+\textbf{PH\_WATER} indicates soil acidity. Extreme pH affects nutrient cycling
+and decomposition, altering fuel loads \citep{Certini2005b}.  
+\textbf{CEC\_SOIL}, \textbf{CEC\_CLAY} and \textbf{CEC\_EFF} (cmol\,kg$^{-1}$)
+represent nutrient-holding capacity. High CEC improves water retention and thus
+reduces fire proneness \citep{Brady2017,Jenny1941}.  
+\textbf{TEB} (Total Exchangeable Bases) and \textbf{BSAT} (\%) describe soil
+fertility; productive soils often accumulate more biomass, increasing available
+fuel \citep{Archibald2013}.  
+\textbf{ALUM\_SAT} (\%) and \textbf{ESP} (\%) capture aluminum and sodium
+saturation. High ESP causes soil crusting and sparse vegetation, producing
+patchy fire propagation patterns \citep{Qadir2014}.  
+\textbf{TCARBON\_EQ} (total carbon equivalents) and \textbf{GYPSUM} (\%) indicate
+soil development stage in arid systems. Gypsiferous and carbonate-rich soils
+often host low vegetation cover and reduced fire intensity \citep{Herrero2009}.  
+\textbf{ELEC\_COND} (dS\,m$^{-1}$) measures salinity; high salinity stresses
+vegetation and correlates with lower fuel loads \citep{RuizSinoga2012}.
+
+Overall, these variables collectively describe the soil moisture regime, nutrient
+status, vegetation-support capacity and physical structure of the topsoil, all
+of which are key environmental determinants of wildfire ignition and spread.

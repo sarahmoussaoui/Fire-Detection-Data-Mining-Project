@@ -1,0 +1,90 @@
+\documentclass[11pt,a4paper]{report}
+
+% --------------------------------------------------------------------
+% Packages
+% --------------------------------------------------------------------
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+
+\usepackage{graphicx}
+\graphicspath{{images/}}     % all images inside images/
+
+\usepackage{amsmath, amssymb}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{float}            % for [H] figures
+
+\usepackage{titlesec}         % keep it if you want to style sections/subsections
+\usepackage{xcolor}
+
+\usepackage{tcolorbox}
+\tcbuselibrary{skins}
+
+\usepackage{fancyhdr}
+\setlength{\headheight}{14pt}
+\pagestyle{fancy}
+\fancyhf{}                     % clear all header/footer fields
+\fancyhead[L]{\leftmark}      % chapter title in header
+\fancyfoot[C]{\thepage}       % page number in footer
+
+% ---- Glenn chapter style -------------------------------------------
+\usepackage[Glenn]{fncychap}  % This alone handles the chapter layout
+
+% Optional: tweak Glenn fonts (not required)
+% \renewcommand{\ChNameVar}{\bfseries\Large\rmfamily}
+% \renewcommand{\ChNumVar}{\bfseries\Huge\rmfamily}
+% \renewcommand{\ChTitleVar}{\bfseries\Large\rmfamily}
+
+% IMPORTANT: remove any \titleformat{\chapter} redefinition.
+% fncychap must control \chapter, so DO NOT redefine it with titlesec.
+% --------------------------------------------------------------------
+\usepackage{hyperref}         % keep hyperref near the end
+\usepackage{natbib}
+
+% --------------------------------------------------------------------
+% Document info
+% --------------------------------------------------------------------
+\title{Forest Fire Prediction using Soil, Climate, Elevation and Land Cover Data}
+\author{Your Name}
+\date{\today}
+
+% --------------------------------------------------------------------
+\begin{document}
+% --------------------------------------------------------------------
+
+\input{cover_page.tex}
+\tableofcontents
+
+% --------------------------------------------------------------------
+% Chapters
+% --------------------------------------------------------------------
+\chapter{Data Extraction}
+\input{chapters/data_extraction/data_extraction}
+
+\chapter{Data Description And Visualisation}
+\input{chapters/data_desc_viz/data_description_viz}
+
+
+\chapter{Data Cleaning and Preprocessing}
+\input{chapters/data_cleaning_preprocessing/data_cleaning_preprocessing}
+
+\chapter{Feature Engineering}
+\input{chapters/feature_engineering/feature_engineering}
+
+\chapter{Supervised Machine Learning}
+\input{chapters/supervised_ml/supervised_ml}
+
+\chapter{Unsupervised Machine Learning}
+\input{chapters/unsupervised_ml/unsupervised_ml}
+
+% --------------------------------------------------------------------
+\bibliographystyle{plain} % or IEEEtran / abbrvnat etc.
+\bibliography{references/dalia_references} % create references.bib later
+
+\end{document}
