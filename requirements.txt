@@ -1,5 +1,5 @@
 geopandas
-pandas
+pandas>=2.0.0
 numpy == 1.26.4
 matplotlib
 scikit-learn
@@ -16,5 +16,5 @@ xarray
 rioxarray
 xlrd
 fastparquet
-pyarrow
+pyarrow==14.0.1
 imbalanced-learn
