@@ -6,3 +6,5 @@ rule fit: if blabla then appartient a cluster
 distance matrix a part 
 
 RF sur colab
+
+interpretation : metrique unsupervised (correlation)
