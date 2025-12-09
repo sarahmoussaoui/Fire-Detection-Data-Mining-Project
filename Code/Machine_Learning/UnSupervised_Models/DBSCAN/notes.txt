@@ -1,0 +1,8 @@
+anomalie detection --> noise ...
+sinon voir si cluster dominant
+% de points appartenant au cluster dominant
+
+rule fit: if blabla then appartient a cluster
+distance matrix a part 
+
+RF sur colab
