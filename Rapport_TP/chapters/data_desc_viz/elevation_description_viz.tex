@@ -1,0 +1,69 @@
+\section{Elevation data extraction and visualization}
+
+This section details the analysis and statistical exploration of the extracted **Elevation Dataset** for the combined region of Algeria and Tunisia. The dataset, previously clipped and saved as a GeoTIFF (\texttt{elevation\_dz\_tn.tif}), is examined for data integrity, statistical properties, and spatial distribution.
+
+\subsection{Data Loading and Integrity Check}
+
+The analysis begins by loading the processed raster file using \texttt{rasterio}.
+
+\begin{itemize}
+    \item \textbf{No-Data Handling:} An integrity check was performed to identify and quantify the raster's no-data values (\texttt{nodata\_value}). These values, often representing areas outside the clipped boundary or sea level, were masked out during statistical calculations to ensure accurate topographical analysis. The initial count of missing values was recorded.
+\end{itemize}
+
+ 
+
+\subsection{Raster Summary and Descriptive Statistics}
+
+Key metadata and descriptive statistics were extracted directly from the raster source.
+
+\begin{itemize}
+    \item \textbf{Metadata:} Essential properties such as the number of bands ($\texttt{count}$), dimensions ($\texttt{width}$, $\texttt{height}$), Coordinate Reference System ($\texttt{crs}$), and geographical $\texttt{bounds}$ were retrieved to confirm the raster's structure.
+    
+    \item \textbf{Central Tendency:} Core statistics were computed on the valid elevation pixels using \texttt{numpy} to characterize the overall terrain:
+    
+    \begin{itemize}
+        \item Mean Elevation: 538.327
+        \item Median Elevation: 464.0
+        \item Mode Elevation: 301
+    \end{itemize}
+    
+  
+\end{itemize}
+
+\subsection{Elevation Visualization}
+The **Elevation Dataset** was visualized using \texttt{matplotlib} and \texttt{rasterio.plot} to create a professional elevation map (Figure \ref{fig:elevation\_map}). The map utilizes a color scale to intuitively display elevation in meters.
+ 
+\begin{figure}[!h]
+    \centering
+    % Placeholder for the Elevation Map visualization
+    \includegraphics[width=0.5\textwidth]{images/Elevation/elevation map.png}
+    \caption{Color-ramped visualization of the **Elevation Dataset** for the combined Algeria and Tunisia study area. The \texttt{terrain} color map illustrates the topographical gradient, ranging from low coastal plains to high inland mountains.}
+    \label{fig:elevation\_map}
+\end{figure}
+
+\subsection{Distribution and Topographical Profile}
+
+The distribution of all valid elevation values was analyzed to understand the region's topographical profile.
+
+\begin{figure}[!h]
+    \centering
+    % Placeholder for the Elevation Histogram
+    \includegraphics[width=0.5\textwidth]{images/Elevation/Elevation Distribution.png}
+    \caption{Frequency distribution of elevation values in the merged **Elevation Dataset**. The distribution exhibits a clear left skew.}
+    \label{fig:elevation\_histogram}
+\end{figure}
+
+\textbf{Histogram Interpretation}
+The elevation histogram (Figure \ref{fig:elevation\_histogram}) displays a clear \textbf{left-skewed distribution}. This pattern suggests that while the terrain includes low-lying coastal and steppe regions (the left tail), the majority of the area is concentrated in the mid-to-high elevation ranges, corresponding to the **Saharan plateaus** and inland mountain ranges.
+
+\begin{figure} [!h]
+    \centering
+    % Placeholder for the Elevation Boxplot
+    \includegraphics[width=0.6\textwidth]{images/Elevation/elevation box plot.png}
+    \caption{Boxplot summarizing the elevation data, highlighting the interquartile range (IQR) and the presence of extreme high-elevation outliers.}
+    \label{fig:elevation\_boxplot}
+\end{figure}
+
+### Boxplot Interpretation
+The boxplot (Figure \ref{fig:elevation\_boxplot}) confirms the presence of significant high-elevation \textbf{outliers}. These extreme values correspond to the highest points in the study area, notably the **Tassili n’Ajjer** and the **Hoggar Mountains (Ahaggar)** in southern Algeria, which reach peak elevations of approximately 2900 to 3000 meters.
+

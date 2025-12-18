@@ -1,0 +1,44 @@
+\section{Fire Data Extraction}
+
+\textbf{Fire Dataset Composition}
+\label{sec:dataset\_composition}
+
+The dataset utilized for this analysis is a composite structure derived from two distinct data sources corresponding to fire incidents recorded in \textbf{Algeria} and \textbf{Tunisia}. The original data for each country is provided in a separate CSV file.
+
+\textbf{Data Integration and Structure}
+
+The core process involved the simple integration of these two national datasets to form a unified, comprehensive file. This merged dataset provides a consistent structure across all observations, which is essential for comparative analysis.
+
+The resultant dataset comprises 15 columns, detailing geographical, temporal, and radiative properties of the detected fire events. The complete set of variables is as follows:
+\begin{itemize}
+    \item \texttt{latitude}, \texttt{longitude}: Geographical coordinates of the fire pixel.
+    \item \texttt{acq\_date}, \texttt{acq\_time}: Time and date of acquisition.
+    \item \texttt{satellite}, \texttt{instrument}: Sensor and platform used for detection (e.g., N20, VIIRS).
+    \item \texttt{bright\_ti4}, \texttt{bright\_ti5}: Brightness temperatures (in Kelvin) measured by channels I4 and I5.
+    \item \texttt{frp}: Fire Radiative Power (in MW), a key metric for fire intensity.
+    \item \texttt{scan}, \texttt{track}: Dimensions of the fire pixel (in km).
+    \item \texttt{confidence}: Confidence level of the fire detection.
+    \item \texttt{version}, \texttt{daynight}, \texttt{type}: Auxiliary identifiers.
+\end{itemize}
+
+\textbf{Data Preview}
+
+the table below presents a concise preview of the merged dataset, focusing on key variables that define the location, time, and severity of the fire incidents. This demonstrates the consistency of the integrated data structure.
+
+% Use 'S' columns with 'siunitx' package for better number alignment if you include it in the preamble.
+% For simplicity, we stick to 'c' columns here.
+
+\begin{table}[!h]
+    \centering
+    \caption{Preview of the Merged Fire Incident Dataset (Algeria and Tunisia)}
+    \label{tab:data\_preview}
+    \begin{tabular}{ccccccc}
+    \toprule
+    \textbf{latitude} & \textbf{longitude} & \textbf{acq\_date} & \textbf{acq\_time} & \textbf{bright\_ti4} & \textbf{frp (MW)} & \textbf{confidence} \\
+    \midrule
+    27.72818 & 9.87200 & 2024-01-01 & 0003 & 295.51 & 1.24 & n \\
+    28.63288 & 9.77909 & 2024-01-01 & 0003 & 301.80 & 1.57 & n \\
+    28.64012 & 9.77953 & 2024-01-01 & 0003 & 298.65 & 1.34 & n \\
+    \bottomrule
+    \end{tabular}
+\end{table}
