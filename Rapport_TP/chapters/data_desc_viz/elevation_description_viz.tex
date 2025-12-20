@@ -1,6 +1,6 @@
-\section{Elevation data extraction and visualization}
+\section{Elevation data description and visualization}
 
-This section details the analysis and statistical exploration of the extracted **Elevation Dataset** for the combined region of Algeria and Tunisia. The dataset, previously clipped and saved as a GeoTIFF (\texttt{elevation\_dz\_tn.tif}), is examined for data integrity, statistical properties, and spatial distribution.
+This section details the analysis and statistical exploration of the extracted \textbf{Elevation Dataset} for the combined region of Algeria and Tunisia. The dataset, previously clipped and saved as a GeoTIFF (\texttt{elevation\_dz\_tn.tif}), is examined for data integrity, statistical properties, and spatial distribution.
 
 \subsection{Data Loading and Integrity Check}
 
@@ -31,13 +31,13 @@ Key metadata and descriptive statistics were extracted directly from the raster 
 \end{itemize}
 
 \subsection{Elevation Visualization}
-The **Elevation Dataset** was visualized using \texttt{matplotlib} and \texttt{rasterio.plot} to create a professional elevation map (Figure \ref{fig:elevation\_map}). The map utilizes a color scale to intuitively display elevation in meters.
+The \textbf{Elevation Dataset}  was visualized using \texttt{matplotlib} and \texttt{rasterio.plot} to create a professional elevation map. The map utilizes a color scale to intuitively display elevation in meters.
  
-\begin{figure}[!h]
+\begin{figure}[H]
     \centering
     % Placeholder for the Elevation Map visualization
     \includegraphics[width=0.5\textwidth]{images/Elevation/elevation map.png}
-    \caption{Color-ramped visualization of the **Elevation Dataset** for the combined Algeria and Tunisia study area. The \texttt{terrain} color map illustrates the topographical gradient, ranging from low coastal plains to high inland mountains.}
+    \caption{Color-ramped visualization of the Elevation Dataset for the combined Algeria and Tunisia study area. The \texttt{terrain} color map illustrates the topographical gradient, ranging from low coastal plains to high inland mountains.}
     \label{fig:elevation\_map}
 \end{figure}
 
@@ -45,25 +45,25 @@ The **Elevation Dataset** was visualized using \texttt{matplotlib} and \texttt{r
 
 The distribution of all valid elevation values was analyzed to understand the region's topographical profile.
 
-\begin{figure}[!h]
+\begin{figure}[H]
     \centering
     % Placeholder for the Elevation Histogram
     \includegraphics[width=0.5\textwidth]{images/Elevation/Elevation Distribution.png}
-    \caption{Frequency distribution of elevation values in the merged **Elevation Dataset**. The distribution exhibits a clear left skew.}
+    \caption{Frequency distribution of elevation values in the merged Elevation Dataset. The distribution exhibits a clear left skew.}
     \label{fig:elevation\_histogram}
 \end{figure}
 
 \textbf{Histogram Interpretation}
-The elevation histogram (Figure \ref{fig:elevation\_histogram}) displays a clear \textbf{left-skewed distribution}. This pattern suggests that while the terrain includes low-lying coastal and steppe regions (the left tail), the majority of the area is concentrated in the mid-to-high elevation ranges, corresponding to the **Saharan plateaus** and inland mountain ranges.
+The elevation histogram displays a clear \textbf{left-skewed distribution}. This pattern suggests that while the terrain includes low-lying coastal and steppe regions (the left tail), the majority of the area is concentrated in the mid-to-high elevation ranges, corresponding to the Saharan plateaus and inland mountain ranges.
 
-\begin{figure} [!h]
+\begin{figure} [H]
     \centering
     % Placeholder for the Elevation Boxplot
-    \includegraphics[width=0.6\textwidth]{images/Elevation/elevation box plot.png}
+    \includegraphics[width=0.5\textwidth]{images/Elevation/elevation box plot.png}
     \caption{Boxplot summarizing the elevation data, highlighting the interquartile range (IQR) and the presence of extreme high-elevation outliers.}
     \label{fig:elevation\_boxplot}
 \end{figure}
 
-### Boxplot Interpretation
-The boxplot (Figure \ref{fig:elevation\_boxplot}) confirms the presence of significant high-elevation \textbf{outliers}. These extreme values correspond to the highest points in the study area, notably the **Tassili n’Ajjer** and the **Hoggar Mountains (Ahaggar)** in southern Algeria, which reach peak elevations of approximately 2900 to 3000 meters.
+\textbf{Boxplot Interpretation}
+The boxplot confirms the presence of significant high-elevation \textbf{outliers}. These extreme values correspond to the highest points in the study area, notably the \textbf{Tassili n’Ajjer} and the \textbf{Hoggar Mountains (Ahaggar)} in southern Algeria, which reach peak elevations of approximately 2900 to 3000 meters.
 

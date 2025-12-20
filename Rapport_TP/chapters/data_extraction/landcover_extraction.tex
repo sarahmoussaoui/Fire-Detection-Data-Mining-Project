@@ -2,16 +2,16 @@
 
 This section details the workflow for processing and integrating the Land Cover (LC) data for the study area. Unlike the Elevation dataset (a raster), the Land Cover data was acquired in a \textbf{vector format} (ESRI Shapefiles), necessitating specific preparation steps to ensure geometric and attribute consistency for subsequent analysis.
 
-\subsubsection{Data Acquisition and Standardization}
+\subsection{Data Acquisition and Standardization}
 
 The raw Land Cover data for both Algeria and Tunisia was provided as separate sets of ESRI Shapefiles. The initial goal was to standardize these files into the more efficient \textbf{GeoJSON} format.
 
 \begin{enumerate}
-    \item \textbf{Algeria (GeoJSON Conversion):} The source Shapefile (\texttt{dza\_gc\_adg.shp}) was read into a \texttt{geopandas} GeoDataFrame and immediately exported as a GeoJSON file (\texttt{landcover\_algeria.geojson}).
+    \item \textbf{Algeria (GeoJSON Conversion):} The source Shapefile (\texttt{dza\_gc\_adg.shp}) was read into a \texttt{geopandas} GeoDataFrame and immediately exported as a GeoJSON file \\ (\texttt{landcover\_algeria.geojson}).
     \item \textbf{Tunisia (Simplification and Conversion):} The Tunisia Shapefile (\texttt{tun\_gc\_adg.shp}) was read, and its polygon geometries were optionally subjected to \textbf{simplification} using the \texttt{geometry.simplify(0.001, preserve\_topology=True)} method. This technique reduces the vertex count of the polygons, resulting in a significantly lighter file size without noticeable loss of geographical detail, before being saved as \texttt{landcover\_tunisia.geojson}. 
 \end{enumerate}
 
-\subsubsection{Merging and Harmonization}
+\subsection{Merging and Harmonization}
 
 The two processed GeoJSON files were merged to create a unified Land Cover dataset. This integration required rigorous harmonization to ensure compatibility between the two separate national datasets.
 
@@ -24,20 +24,20 @@ The merging protocol included the following critical steps:
     \item \textbf{Dissolving:} The \texttt{merged.dissolve()} function was optionally used to create a single, continuous boundary of the entire combined Land Cover area, useful for extent mapping.
 \end{itemize}
 
-\subsubsection{Final Output}
+% \subsection{Final Output}
 
-The final, integrated Land Cover data was saved into two GeoJSON files:
+% The final, integrated Land Cover data was saved into two GeoJSON files:
 
-\begin{itemize}
-    \item \texttt{landcover\_combined.geojson}: Contains all individual land cover polygons and their attributes for the combined region.
-    \item \texttt{landcover\_combined\_boundary.geojson}: Contains the single, dissolved geometric boundary of the total area.
-\end{itemize}
+% \begin{itemize}
+%     \item \texttt{landcover\_combined.geojson}: Contains all individual land cover polygons and their attributes for the combined region.
+%     \item \texttt{landcover\_combined\_boundary.geojson}: Contains the single, dissolved geometric boundary of the total area.
+% \end{itemize}
 
 Successful integration was confirmed by visualizing the resulting \texttt{merged} GeoDataFrame, which exhibited a consistent spatial structure across the national border.
 
-\begin{figure}[!h]
-    \centering
-    \includegraphics[width=0.5\textwidth]{../../images/LandCover/Land Cover Types - Algeria and Tunisia Merged.png}
-    \caption{Final merged Land Cover map for the combined study area of Algeria and Tunisia. The map demonstrates the seamless integration of the vector datasets after CRS alignment and attribute harmonization.}
-    \label{fig:merged\_landcover}
-\end{figure}
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=0.5\textwidth]{images/LandCover/Land Cover Types - Algeria and Tunisia Merged.png}
+%     \caption{Final merged Land Cover map for the combined study area of Algeria and Tunisia. The map demonstrates the seamless integration of the vector datasets after CRS alignment and attribute harmonization.}
+%     \label{fig:merged\_landcover}
+% \end{figure}

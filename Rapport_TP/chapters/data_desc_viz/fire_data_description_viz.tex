@@ -7,7 +7,7 @@ The analysis began by loading the separate VIIRS (Visible Infrared Imaging Radio
 
 \begin{itemize}
     \item \textbf{Initial Check:} Descriptive statistics (\texttt{describe()}) were computed to understand the distribution, range, and central tendencies of numerical features like $\texttt{frp}$ and brightness temperatures.
-    \item \textbf{Data Quality:} Inspection of data types, memory usage, and the percentage of missing values (\texttt{isnull().mean()}) confirmed data integrity and structure consistency across both datasets. Crucially, the missing value analysis revealed low data sparsity, making immediate imputation unnecessary.
+    \item \textbf{Data Quality:} Inspection of data types, memory usage, and the percentage of missing values (\texttt{isnull().mean()}) confirmed data integrity and structure consistency across both datasets. 
     \item \textbf{Data Integration:} The two datasets were merged into a single GeoDataFrame, $\texttt{df\_fire}$, using the \texttt{pd.concat()} function, ready for combined regional analysis.
 \end{itemize}
 
@@ -15,37 +15,37 @@ The analysis began by loading the separate VIIRS (Visible Infrared Imaging Radio
 
 Understanding the physical meaning of the VIIRS variables is critical for interpreting the visualizations. The following table summarizes key columns used in the analysis:
 
-\begin{table}[!h]
+\begin{table}[H]
     \centering
     \caption{Summary of Key VIIRS Fire Dataset Variables}
-    \label{tab:viirs\_variables}
-    \begin{tabular}{llcl}
+    \label{tab:viirs_variables}
+    \begin{tabular}{llc}
     \toprule
-    \textbf{Variable} & \textbf{Meaning} & \textbf{Unit} & \textbf{Note on Interpretation} \\
+    \textbf{Variable} & \textbf{Meaning} & \textbf{Unit} \\
     \midrule
-    \texttt{bright\_ti4} & Brightness temperature, Band M13 (4 $\mu\text{m}$) & Kelvin (K) & Highly sensitive to hot fires. \\
-    \texttt{bright\_ti5} & Brightness temperature, Band M15 (11 $\mu\text{m}$) & Kelvin (K) & Used for background temperature reference. \\
-    \texttt{frp} & Fire Radiative Power & Megawatts (MW) & Measures fire intensity and biomass combustion rate. \\
-    \texttt{scan} & Pixel size in scan (E–W) direction & Degrees & Pixel width, increases with distance from nadir. \\
-    \texttt{track} & Pixel size in along-track (N–S) direction & Degrees & Pixel height, related to satellite's flight path. \\
+    \texttt{bright\_ti4} & Brightness temperature, Band M13 (4 $\mu\text{m}$) & Kelvin (K) \\
+    \texttt{bright\_ti5} & Brightness temperature, Band M15 (11 $\mu\text{m}$) & Kelvin (K) \\
+    \texttt{frp} & Fire Radiative Power & Megawatts (MW) \\
+    \texttt{scan} & Pixel size in scan (E--W) direction & Degrees \\
+    \texttt{track} & Pixel size in along-track (N--S) direction & Degrees \\
     \bottomrule
     \end{tabular}
 \end{table}
 
 \subsection{Exploratory Data Analysis (EDA) and Visualization}
 
-\begin{figure}[!h]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.5\textwidth]{images/Fire/frp values in map.png}
     \caption{Geospatial distribution of fire events across Algeria and Tunisia. Points are colored by Fire Radiative Power (FRP), highlighting areas of highest fire intensity.}
     \label{fig:fire\_spatial\_map}
 \end{figure}
 
-The geospatial distribution of fire events was visualized using a scatter plot of $\texttt{longitude}$ vs. $\texttt{latitude}$, with the color intensity mapped to $\texttt{frp}$ . This visualization (Figure \ref{fig:fire\_spatial\_map}) is essential for identifying fire clusters and high-intensity regions across the combined study area.
+The geospatial distribution of fire events was visualized using a scatter plot of $\texttt{longitude}$ vs. $\texttt{latitude}$, with the color intensity mapped to $\texttt{frp}$ . This visualization below is essential for identifying fire clusters and high-intensity regions across the combined study area.
 
-### Feature Distribution and Correlation
+\textbf{Feature Distribution and Correlation}
 
-\begin{figure}[!h]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.5\textwidth]{images/Fire/distribution of numerical columns.png}
     \caption{Histograms illustrating the distribution of key numerical variables (\texttt{latitude, longitude, bright\_ti4, frp, scan, track, bright\_ti5}) in the merged fire dataset.}
@@ -53,30 +53,27 @@ The geospatial distribution of fire events was visualized using a scatter plot o
 \end{figure}
 
 %  RECHECK 
-The distributions of the numerical columns were visualized using histograms (Figure \ref{fig:histograms}), revealing heavily right-skewed distributions for intensity variables like $\texttt{frp}$, indicating that most fire detections are of low power, with few extreme events.
+The distributions of the numerical columns were visualized using histograms, revealing heavily right-skewed distributions for intensity variables like $\texttt{frp}$, indicating that most fire detections are of low power, with few extreme events.
 
-\begin{figure}[!h]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.5\textwidth]{images/Fire/heatmaps of numerical.png}
     \caption{Heatmap of the Pearson correlation matrix for numerical variables. High correlation exists between the brightness temperatures and the pixel dimensions.}
     \label{fig:heatmap}
 \end{figure}
 
-A correlation matrix heatmap (Figure \ref{fig:heatmap}) was generated to explore relationships between the numerical features. Key findings include:
+A correlation matrix heatmap was generated to explore relationships between the numerical features. Key findings include:
 \begin{itemize}
     \item A very high correlation (Spearman $\rho \approx 0.96$) was observed between $\texttt{bright\_ti4}$ and $\texttt{bright\_ti5}$, which is expected as both measure thermal radiation from the same source, but in different bands.
     \item Positive correlations were also noted between $\texttt{bright\_ti4}$, $\texttt{frp}$, $\texttt{scan}$, and $\texttt{track}$, suggesting that larger or more intense fires (higher $\texttt{frp}$) often have higher brightness temperatures and are more likely to be detected in larger, more distorted pixels (higher $\texttt{scan}$ and $\texttt{track}$ values).
 \end{itemize}
 
-\begin{figure} [!h]
-    \centering
-    \includegraphics[width=0.8\textwidth]{images/Fire/boxplots.png}
-    \caption{Boxplots displaying the distribution of fire intensity metrics (\texttt{bright\_ti4, bright\_ti5, frp}), clearly illustrating the presence of extreme outliers (high-power fires) above the main interquartile range.}
-    \label{fig:boxplots}
-\end{figure}
+% \begin{figure} [H]
+%     \centering
+%     \includegraphics[width=0.8\textwidth]{images/Fire/boxplots.png}
+%     \caption{Boxplots displaying the distribution of fire intensity metrics (\texttt{bright\_ti4, bright\_ti5, frp}), clearly illustrating the presence of extreme outliers (high-power fires) above the main interquartile range.}
+%     \label{fig:boxplots}
+% \end{figure}
 
-Boxplots (Figure \ref{fig:boxplots}) further confirmed the presence of significant outliers in the fire intensity metric $\texttt{bright\_ti5}$ and $\texttt{frp}$), due to the presence of extremely hot and large fire events.
+% Boxplots (Figure \ref{fig:boxplots}) further confirmed the presence of significant outliers in the fire intensity metric $\texttt{bright\_ti5}$ and $\texttt{frp}$), due to the presence of extremely hot and large fire events.
 
-\subsection{Final Data Preparation}
-
-The processed $\texttt{df\_fire}$ GeoDataFrame, now including the $\texttt{datetime}$ and $\texttt{hour}$ columns, was saved as $\texttt{fire\_df.csv}$ for use in subsequent advanced modeling stages.
