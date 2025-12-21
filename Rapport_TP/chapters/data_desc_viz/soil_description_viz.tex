@@ -1,7 +1,7 @@
 \section{Soil Dataset Description}
 
 The soil dataset used in this study consists of \textbf{23,262 grid cells}
-($0.1^{\circ}$ resolution) covering Algeria and Tunisia . Each row corresponds to a
+($0.1^{\circ}$ resolution) covering Algeria and Tunisia. Each row corresponds to a
 regular grid-cell centroid (\texttt{x}, \texttt{y}) together with topsoil
 (0--20\,cm) physical and chemical attributes extracted from the Harmonized World
 Soil Database v2 (HWSD2). The total memory usage for the soil data is approximately \textbf{5.90 MB}. All features originate either from the D1 layer
@@ -64,3 +64,122 @@ vegetation and correlates with lower fuel loads \citep{RuizSinoga2012}.
 Overall, these variables collectively describe the soil moisture regime, nutrient
 status, vegetation-support capacity and physical structure of the topsoil, all
 of which are key environmental determinants of wildfire ignition and spread.
+
+
+\section{Soil visualisation}
+
+This section presents an exploratory visual analysis of the soil variables.
+Two complementary approaches are used: distribution analysis through
+histograms and normality assessment through quantiles plots.
+All analyses are based on the $0.1^{\circ}$ grid covering the study area.
+
+\subsection{Histogram-based distribution analysis}
+
+Figure~\ref{fig:soil-histograms} shows the histograms of all numeric soil
+features together with their mean, median and mode.
+
+The \textbf{COARSE} fraction exhibits a slightly right-skewed distribution
+(mean $>$ median $>$ mode), indicating that most soils contain low proportions
+of coarse fragments, with a limited number of rocky soils forming the upper
+tail.  
+\textbf{SAND} follows a right-skewed distribution, with a dominance of
+moderately sandy soils and a tail toward very sandy conditions.  
+\textbf{SILT} displays a slightly left-skewed shape (mode $>$ median $>$ mean),
+suggesting a concentration around medium silt contents with few low-silt
+extremes.  
+\textbf{CLAY} is right-skewed, showing a prevalence of fine to medium clay
+contents and a small proportion of highly clay-rich soils.
+
+\textbf{BULK} density presents a right-skewed distribution, with most values
+clustered around typical mineral soil densities and a tail toward compacted
+soils.\textbf{REF\_BULK} shows a very similar pattern but with weaker skewness,
+indicating a more homogeneous reference density.  
+\textbf{ORG\_CARBON} is clearly right-skewed, reflecting the dominance of
+carbon-poor soils and a long tail corresponding to organic-rich zones.  
+\textbf{PH\_WATER} is left-skewed, with most soils near neutral to alkaline
+conditions and a smaller acidic tail.
+
+\textbf{TOTAL\_N} follows a right-skewed distribution, indicating nitrogen-poor
+conditions over most of the area, with a few fertile hotspots.  
+\textbf{CN\_RATIO} shows slight right skewness, with most soils presenting
+balanced ratios and a limited number of high C:N values.  
+\textbf{CEC\_SOIL} is right-skewed, dominated by moderate cation exchange
+capacities and a long tail toward high-CEC soils.  
+\textbf{CEC\_CLAY} is slightly left-skewed, indicating generally high clay
+activity with fewer low-activity mineral clays.
+
+\textbf{CEC\_EFF} and \textbf{TEB} both show right-skewed distributions, with a
+small number of soils exhibiting very high effective exchange capacity or base
+content.  
+\textbf{BSAT} presents a bimodal to slightly right-skewed distribution, with a
+major peak near full base saturation and a secondary lower-saturation group,
+reflecting widespread alkaline conditions.  
+\textbf{ALUM\_SAT} is strongly right-skewed, with very low aluminum saturation
+in most soils and only a few acidic outliers.  
+\textbf{ESP} also exhibits right skewness, indicating generally low sodicity
+with isolated saline or sodic areas.  
+\textbf{TCARBON\_EQ} shows slight right skewness, corresponding to moderately
+carbonated soils with a few carbonate-rich extremes.  
+\textbf{GYPSUM} and \textbf{ELEC\_COND} are strongly right-skewed, highlighting
+that most soils are gypsum-free and non-saline, while a small number of cells
+represent gypsiferous or saline environments.
+
+Overall, only a limited subset of variables (\textbf{REF\_BULK}, \textbf{PH\_WATER}, \textbf{SILT}, \textbf{CN\_RATIO}, \textbf{CEC\_CLAY})
+approach a symmetric or near-normal distribution, while the majority exhibit
+clear positive skewness.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{images/Soil/soil_hist_numeric_annotated}
+    \caption{Histograms of soil numeric variables with mean, median and mode indicators.}\label{fig:soil-histograms}
+\end{figure}
+
+\subsection{Normality assessment using quantiles plots}
+
+Figure~\ref{fig:soil-qq} presents the quantiles plots of the soil variables against a
+theoretical normal distribution.
+
+\textbf{COARSE} shows points following the reference line reasonably well, with
+minor tail deviations, indicating slight non-normality.  
+\textbf{SAND} displays strong deviation at high quantiles, confirming its
+positively skewed, non-normal nature.  
+\textbf{SILT} exhibits a pronounced S-shaped pattern, with clear departures in
+both tails, indicating non-normality.  
+\textbf{CLAY} aligns closely with the reference line, with only small deviations
+at the extremes, and can be considered normally distributed.
+
+\textbf{BULK} presents a clear right tail and upward deviation at high quantiles,
+confirming non-normality.  
+\textbf{REF\_BULK} closely follows the theoretical line across most quantiles,
+indicating an approximately normal distribution.  
+\textbf{ORG\_CARBON} shows mild curvature at the tails but remains largely
+aligned, suggesting near-normal behavior.  
+\textbf{PH\_WATER} shows strong deviations and non-linearity, indicating clear
+departure from normality.
+
+\textbf{TOTAL\_N} exhibits an almost linear pattern with slight deviations at
+both tails, indicating slight normality.  
+\textbf{CN\_RATIO} presents an S-shaped curve with upper-tail deviation,
+confirming non-normality.  
+\textbf{CEC\_SOIL} aligns well with the reference line, with only minor tail
+effects, and can be considered normally distributed.  
+\textbf{CEC\_CLAY} shows slight upward deviation in the upper tail but otherwise
+follows the line, indicating slight normality.
+
+\textbf{CEC\_EFF}, \textbf{TEB}, \textbf{BSAT}, \textbf{ALUM\_SAT},
+\textbf{ESP}, \textbf{GYPSUM} and \textbf{ELEC\_COND} all exhibit strong curvature
+and substantial deviations from the reference line, confirming pronounced
+right-skewed and non-normal distributions.  
+\textbf{TCARBON\_EQ} shows relatively good alignment with mild upper-tail
+deviation, indicating slight normality.
+
+These results confirm that most soil variables do not follow a Gaussian
+distribution and will require appropriate transformations or robust scaling
+prior to statistical modelling.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{images/Soil/soil_qq_numeric}
+    \caption{Quantiles plots of soil numeric variables against the normal
+    distribution.}\label{fig:soil-qq}
+\end{figure}

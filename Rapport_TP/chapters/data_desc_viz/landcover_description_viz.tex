@@ -32,19 +32,19 @@ The distribution of land cover types was visualized to understand the regional c
     \begin{figure} [H]
     \centering
     \includegraphics[width=0.5\textwidth]{images/LandCover/Land Cover Types - Algeria and Tunisia Merged.png}
-    \caption{Geospatial visualization of the merged Land Cover Map, colored by the specific Land Cover Classification Code ($\texttt{lcccode}$).}
-    \label{fig:landcover\_map}
-    \end{figure}
+    \caption{Geospatial visualization of the merged Land Cover Map, colored by the specific Land Cover Classification Code ($\texttt{lcccode}$).}%
+    \label{fig:landcover_map}
+\end{figure}
 
     % \item \textbf{Proportional Distribution:} A pie chart displayed the percentage distribution of each unique $\texttt{lcccode}$.
-    \item \textbf{Area Analysis:} The geometric area of each polygon was calculated \\ ($\texttt{landcover\_gdf['area'] = ...geometry.area}$). A bar plot was generated showing the Total Area by Land Cover Code.
+    \item \textbf{Area Analysis:} The geometric area of each polygon was calculated \\ ($\texttt{landcover\_gdf['area'] = \ldots geometry.area}$). A bar plot was generated showing the Total Area by Land Cover Code.
 
 
     \begin{figure} [H]
         \centering
         \includegraphics[width=0.6\textwidth]{images/LandCover/total area by lcc code bar chart.png}
-        \caption{Total aggregated area (in square degrees) covered by each Land Cover Code in the combined dataset.}
-        \label{fig:lcccode\_area}
+        \caption{Total aggregated area (in square degrees) covered by each Land Cover Code in the combined dataset.}%
+        \label{fig:lcccode_area}
     \end{figure}
 \end{itemize}
 
@@ -59,9 +59,9 @@ The official legend files (\texttt{globcover\_LCCS\_legend\_africa.xls} and \tex
 
 \begin{itemize}
     \item The $\texttt{LCCCode}$ was mapped to its descriptive label ($\texttt{LCCOwnLabel}$) using a dictionary.
-    \item This process identified that certain codes were designated as 'Error' in the $\texttt{LC}$ column of the legend, yet represented valid land cover types in the $\texttt{LCCOwnLabel}$ column (e.g., 'Closed forest'). This confirmed that these codes should be retained and mapped correctly.
+    \item This process identified that certain codes were designated as ``Error'' in the $\texttt{LC}$ column of the legend, yet represented valid land cover types in the $\texttt{LCCOwnLabel}$ column (e.g., ``Closed forest''). This confirmed that these codes should be retained and mapped correctly.
 \end{itemize}
 
 \textbf{High-Level Mapping}
-Given the 22 unique $\texttt{lcccode}$ values in the dataset, a high-level, simplified mapping was created to aggregate these codes into fundamental categories (e.g., "Forests," "Bare lands," "Croplands," "Vegetation," etc.). 
+Given the 22 unique $\texttt{lcccode}$ values in the dataset, a high-level, simplified mapping was created to aggregate these codes into fundamental categories (e.g., ``Forests,'' ``Bare lands,'' ``Croplands,'' ``Vegetation,'' etc.). 
 This step is crucial for reducing the complexity of the model's fire prediction.
