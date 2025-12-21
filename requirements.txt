@@ -18,3 +18,4 @@ xlrd
 fastparquet
 pyarrow==14.0.1
 imbalanced-learn
+scikit-learn-extra
