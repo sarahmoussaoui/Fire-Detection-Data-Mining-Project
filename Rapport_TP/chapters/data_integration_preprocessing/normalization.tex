@@ -1,6 +1,4 @@
-\section{Normalization and Feature Processing}
-
-\paragraph{Soil Properties:} 
+\subsection{Soil Properties:} 
 Soil variables were normalized using property-specific transformations:
 \begin{itemize}
     \item \textbf{Texture (COARSE, SAND, SILT, CLAY):} Min-Max scaling to range [0,1].
@@ -21,13 +19,24 @@ The distributions of selected soil properties before and after normalization wer
 \end{figure}
 
 
-\paragraph{Climate Features:} 
+\subsection{Climate Features:} 
+\subsection{Expansion of Monthly Climate Variables}
+
+Each monthly climate attribute (\texttt{month\_1} to \texttt{month\_12}) originally encoded three distinct measurements within a single column: minimum temperature, maximum temperature, and precipitation. To make these data usable by machine learning models, each monthly column was systematically decomposed into three explicit numerical variables.
+
+For each month $i$, the original triplet was expanded as:
+\[
+\texttt{month\_i} \rightarrow (\texttt{temp\_min\_i},\ \texttt{temp\_max\_i},\ \texttt{precip\_i})
+\]
+This transformation converts the nested representation into a fixed-length feature space while preserving seasonal information. The original \texttt{month\_i} columns were then removed to avoid ambiguity and redundancy. As a result, the climate block consists of 36 interpretable numerical variables (12 months $\times$ 3 indicators), fully compatible with downstream statistical analysis and machine learning models.
+
+\subsubsection{Normalisation}
 Temperature features were standardized (z-score), while precipitation features were log-transformed.
 
-\paragraph{Elevation:} 
+\subsection{Elevation Features:} 
 Standard scaling was applied to the elevation variable.
 
-\paragraph{Landcover:} 
+\subsection{Landcover Features:} 
 The original land cover codes (\texttt{lcccode}) were transformed into higher-level categories (\texttt{lcc\_highlevel}) to simplify the representation of land types. 
 For instance:
 \begin{itemize}
