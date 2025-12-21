@@ -10,7 +10,6 @@ The analysis begins by loading the processed raster file using \texttt{rasterio}
     \item \textbf{No-Data Handling:} An integrity check was performed to identify and quantify the raster's no-data values (\texttt{nodata\_value}). These values, often representing areas outside the clipped boundary or sea level, were masked out during statistical calculations to ensure accurate topographical analysis. The initial count of missing values was recorded.
 \end{itemize}
 
- 
 
 \subsection{Raster Summary and Descriptive Statistics}
 
@@ -37,8 +36,8 @@ The \textbf{Elevation Dataset}  was visualized using \texttt{matplotlib} and \te
     \centering
     % Placeholder for the Elevation Map visualization
     \includegraphics[width=0.5\textwidth]{images/Elevation/elevation map.png}
-    \caption{Color-ramped visualization of the Elevation Dataset for the combined Algeria and Tunisia study area. The \texttt{terrain} color map illustrates the topographical gradient, ranging from low coastal plains to high inland mountains.}
-    \label{fig:elevation\_map}
+    \caption{Color-ramped visualization of the Elevation Dataset for the combined Algeria and Tunisia study area. The \texttt{terrain} color map illustrates the topographical gradient, ranging from low coastal plains to high inland mountains.}%
+    \label{fig:elevation_map}
 \end{figure}
 
 \subsection{Distribution and Topographical Profile}
@@ -49,19 +48,19 @@ The distribution of all valid elevation values was analyzed to understand the re
     \centering
     % Placeholder for the Elevation Histogram
     \includegraphics[width=0.5\textwidth]{images/Elevation/Elevation Distribution.png}
-    \caption{Frequency distribution of elevation values in the merged Elevation Dataset. The distribution exhibits a clear left skew.}
-    \label{fig:elevation\_histogram}
+    \caption{Frequency distribution of elevation values in the merged Elevation Dataset. The distribution exhibits a clear left skew.}%
+    \label{fig:elevation_histogram}
 \end{figure}
 
 \textbf{Histogram Interpretation}
 The elevation histogram displays a clear \textbf{left-skewed distribution}. This pattern suggests that while the terrain includes low-lying coastal and steppe regions (the left tail), the majority of the area is concentrated in the mid-to-high elevation ranges, corresponding to the Saharan plateaus and inland mountain ranges.
 
-\begin{figure} [H]
+\begin{figure}[H]
     \centering
     % Placeholder for the Elevation Boxplot
     \includegraphics[width=0.5\textwidth]{images/Elevation/elevation box plot.png}
-    \caption{Boxplot summarizing the elevation data, highlighting the interquartile range (IQR) and the presence of extreme high-elevation outliers.}
-    \label{fig:elevation\_boxplot}
+    \caption{Boxplot summarizing the elevation data, highlighting the interquartile range (IQR) and the presence of extreme high-elevation outliers.}%
+    \label{fig:elevation_boxplot}
 \end{figure}
 
 \textbf{Boxplot Interpretation}
