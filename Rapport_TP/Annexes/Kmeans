@@ -1,0 +1,20 @@
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{images/Kmeans/kmeans_bayesian_optimization.png}
+    \caption{Bayesian optimization applied to K-Means hyperparameters.}
+    \label{fig:kmeans_bayesian_optimization}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{images/Kmeans/kmeans_visualization_from_scratch.png}
+    \caption{Visualization of K-Means clustering implemented from scratch.}
+    \label{fig:kmeans_visualization_from_scratch}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{images/Kmeans/sklearn_kmeans_visualization.png}
+    \caption{Visualization of K-Means clustering using scikit-learn implementation.}
+    \label{fig:sklearn_kmeans_visualization}
+\end{figure}
