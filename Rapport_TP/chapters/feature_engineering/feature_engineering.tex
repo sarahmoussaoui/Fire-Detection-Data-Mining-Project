@@ -1,0 +1,19 @@
+\section{Feature Engineering}
+
+\section{Overview}
+This chapter describes the feature engineering steps applied to the dataset in order to improve its suitability for modeling. These steps include categorical encoding, feature selection, and the removal of redundant attributes introduced during data preparation and merging.
+
+\section{One-Hot Encoding of Land Cover (High-Level Classes)}
+
+The original land cover codes were first mapped to a reduced set of high-level land cover categories in order to limit semantic fragmentation and ensure consistency across heterogeneous source codes. This mapping resulted in six main land cover classes: \textbf{Artificial surfaces}, \textbf{Bare lands}, \textbf{Water bodies}, \textbf{Vegetation}, \textbf{Croplands}, and \textbf{Forests}.
+
+Following this consolidation, the high-level land cover attribute was transformed using one-hot encoding. This process generated six binary variables, each corresponding to one of the identified land cover classes. The use of one-hot encoding allows categorical land cover information to be incorporated into the model without imposing any artificial ordinal relationships between categories.
+
+
+\section{Dropping Unnecessary Columns}
+In addition to redundant attributes previously identified within each individual dataset, the merging step introduced several internal-use and spatial processing columns that are not relevant for the modeling phase.
+
+To simplify the dataset and reduce noise, these columns were removed. The dropped attributes include:
+\texttt{geometry}, \texttt{cell\_id}, \texttt{match\_type}, \texttt{distance\_m}, \texttt{area}, \texttt{x}, and \texttt{y}.
+
+This dimensionality reduction step helps improve model efficiency and reduces the risk of overfitting by eliminating features that do not contribute predictive information.

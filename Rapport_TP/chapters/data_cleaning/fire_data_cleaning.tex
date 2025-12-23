@@ -1,0 +1,7 @@
+\section{Fire Feature Preparation}
+
+During this step, only the fire records corresponding to \textbf{fire type = 0}, which represent \textbf{forest fires}, were retained. All other fire types were removed from the dataset to ensure that the analysis focuses exclusively on forest fire events.
+
+After filtering, a binary feature named \texttt{Fire} was generated. Since the dataset now contains only forest fire occurrences, the value of this variable is set to \texttt{1} for all remaining records, indicating the presence of a fire.
+
+Finally, to prepare the dataset for integration with other data sources, only the three attributes required for the merge operation were kept, namely \texttt{Altitude}, \texttt{Longitude}, and \texttt{Latitude}. All other columns were discarded in order to simplify the dataset and reduce unnecessary information.
