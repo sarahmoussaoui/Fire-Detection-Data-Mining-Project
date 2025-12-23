@@ -6,15 +6,31 @@ The Random Forest (RF) classifier was evaluated using the scikit-learn implement
 
 \begin{table}[H]
 \centering
-\caption{Scikit-Learn Random Forest Performance Across Resampling Strategies}
-\begin{tabular}{|l|c|c|c|c|c|c|c|}
+\caption{Scikit-Learn Random Forest Global Performance Across Resampling Strategies}
+% \label{tab:rf_global_performance}
+\begin{tabular}{|l|c|c|c|c|}
 \hline
-\textbf{Resampling} & \textbf{Training Time (s)} & \textbf{Training Acc.} & \textbf{Validation Acc.} & \textbf{Class 0 Precision} & \textbf{Class 0 Recall} & \textbf{Class 1 Precision} & \textbf{Class 1 Recall} \\ \hline
-SMOTE & 4.61 & 0.9599 & 0.9008 & 0.98 & 0.91 & 0.33 & 0.68 \\ \hline
-Tomek & 1.29 & 0.9745 & 0.9471 & 0.96 & 0.98 & 0.57 & 0.36 \\ \hline
-SMOTE-Tomek & 4.11 & 0.9614 & 0.8973 & 0.98 & 0.91 & 0.31 & 0.66 \\ \hline
+\textbf{Resampling} & \textbf{Training Time (s)} & \textbf{Training Acc.} & \textbf{Validation Acc.} \\ \hline
+SMOTE & 4.61 & 0.9599 & 0.9008 \\ \hline
+Tomek & 1.29 & 0.9745 & 0.9471 \\ \hline
+SMOTE-Tomek & 4.11 & 0.9614 & 0.8973 \\ \hline
 \end{tabular}
 \end{table}
+
+
+\begin{table}[H]
+\centering
+\caption{Scikit-Learn Random Forest Class-wise Precision and Recall}
+% \label{tab:rf_precision_recall}
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+\textbf{Resampling} & \textbf{Class 0 Precision} & \textbf{Class 0 Recall} & \textbf{Class 1 Precision} & \textbf{Class 1 Recall} \\ \hline
+SMOTE & 0.98 & 0.91 & 0.33 & 0.68 \\ \hline
+Tomek & 0.96 & 0.98 & 0.57 & 0.36 \\ \hline
+SMOTE-Tomek & 0.98 & 0.91 & 0.31 & 0.66 \\ \hline
+\end{tabular}
+\end{table}
+
 
 \subsection{Bayesian Optimization for Random Forest}
 
