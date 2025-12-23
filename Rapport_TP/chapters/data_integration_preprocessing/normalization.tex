@@ -1,6 +1,4 @@
-\section{Normalization and Feature Processing}
-
-\paragraph{Soil Properties:} 
+\subsection{Soil Properties:} 
 Soil variables were normalized using property-specific transformations:
 \begin{itemize}
     \item \textbf{Texture (COARSE, SAND, SILT, CLAY):} Min-Max scaling to range [0,1].
@@ -21,27 +19,31 @@ The distributions of selected soil properties before and after normalization wer
 \end{figure}
 
 
-\paragraph{Climate Features:} 
+\subsection{Climate Features:} 
+\subsection{Expansion of Monthly Climate Variables}
+
+Each monthly climate attribute (\texttt{month\_1} to \texttt{month\_12}) originally encoded three distinct measurements within a single column: minimum temperature, maximum temperature, and precipitation. To make these data usable by machine learning models, each monthly column was systematically decomposed into three explicit numerical variables.
+
+For each month $i$, the original triplet was expanded as:
+\[
+\texttt{month\_i} \rightarrow (\texttt{temp\_min\_i},\ \texttt{temp\_max\_i},\ \texttt{precip\_i})
+\]
+This transformation converts the nested representation into a fixed-length feature space while preserving seasonal information. The original \texttt{month\_i} columns were then removed to avoid ambiguity and redundancy. As a result, the climate block consists of 36 interpretable numerical variables (12 months $\times$ 3 indicators), fully compatible with downstream statistical analysis and machine learning models.
+
+\subsubsection{Normalisation}
 Temperature features were standardized (z-score), while precipitation features were log-transformed.
 
-\paragraph{Elevation:} 
+\subsection{Elevation Features:} 
 Standard scaling was applied to the elevation variable.
 
-\paragraph{Land Cover Classification Code Harmonization}
-
-The raw $\texttt{lcccode}$ column contains complex codes (e.g., \texttt{7001 // 8001}) which represent mixed, uncertain, or transitional land cover types. The separator (\texttt{//}) indicates a mixture between the two classes (e.g., Shrubland and Bare/Sparse vegetation). To handle this complexity for machine learning, the following steps were taken:
-
-\textbf{Legend Integration}
-The official legend files (\texttt{globcover\_LCCS\_legend\_africa.xls} and \texttt{globcover\_legend.xls}) were loaded to establish a mapping between the numeric codes and descriptive labels.
-
+\subsection{Landcover Features:} 
+The original land cover codes (\texttt{lcccode}) were transformed into higher-level categories (\texttt{lcc\_highlevel}) to simplify the representation of land types. 
+For instance:
 \begin{itemize}
-    \item The $\texttt{LCCCode}$ was mapped to its descriptive label ($\texttt{LCCOwnLabel}$) using a dictionary.
-    \item This process identified that certain codes were designated as ``Error'' in the $\texttt{LC}$ column of the legend, yet represented valid land cover types in the $\texttt{LCCOwnLabel}$ column (e.g., ``Closed forest''). This confirmed that these codes should be retained and mapped correctly.
+    \item Multiple codes corresponding to water-related classes (e.g., 7001, 8001) were grouped as ``Water bodies''.
+    \item Forest-related codes (e.g., 21497-121340) were grouped as ``Forests''.
 \end{itemize}
-
-\textbf{High-Level Mapping}
-Given the 22 unique $\texttt{lcccode}$ values in the dataset, a high-level, simplified mapping was created to aggregate these codes into fundamental categories (e.g., ``Forests,'' ``Bare lands,'' ``Croplands,'' ``Vegetation,'' etc.). 
-This step is crucial for reducing the complexity of the model's fire prediction.
+This high-level categorization reduces the number of classes and improves model interpretability, while preserving the main land cover distinctions.
 
 \begin{table}[H]
     \centering

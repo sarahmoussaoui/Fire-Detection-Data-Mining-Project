@@ -15,8 +15,7 @@ Understanding the physical meaning of the VIIRS variables is critical for interp
 
 \begin{table}[H]
     \centering
-    \caption{Summary of Key VIIRS Fire Dataset Variables}%
-    \label{tab:viirs_variables}
+    \caption{Summary of Key VIIRS Fire Dataset Variables}\label{tab:viirs_variables}
     \begin{tabular}{llc}
     \toprule
     \textbf{Variable} & \textbf{Meaning} & \textbf{Unit} \\
@@ -34,9 +33,8 @@ Understanding the physical meaning of the VIIRS variables is critical for interp
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{images/Fire/frp values in map.png}
-    \caption{Geospatial distribution of fire events across Algeria and Tunisia. Points are colored by Fire Radiative Power (FRP), highlighting areas of highest fire intensity.}%
-    \label{fig:fire_spatial_map}
+    \includegraphics[width=0.5\textwidth]{\detokenize{images/Fire/frp values in map.png}}
+    \caption{Geospatial distribution of fire events across Algeria and Tunisia. Points are colored by Fire Radiative Power (FRP), highlighting areas of highest fire intensity.}\label{fig:fire_spatial_map}
 \end{figure}
 
 The geospatial distribution of fire events was visualized using a scatter plot of \texttt{longitude} vs.\ \texttt{latitude}, with the color intensity mapped to \texttt{frp}. This visualization is essential for identifying fire clusters and high-intensity regions across the combined study area.
@@ -45,18 +43,16 @@ The geospatial distribution of fire events was visualized using a scatter plot o
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{images/Fire/distribution of numerical columns.png}
-    \caption{Histograms illustrating the distribution of key numerical variables (\texttt{latitude}, \texttt{longitude}, \texttt{bright\_ti4}, \texttt{frp}, \texttt{scan}, \texttt{track}, \texttt{bright\_ti5}) in the merged fire dataset.}
-    \label{fig:histograms}
+    \includegraphics[width=0.5\textwidth]{\detokenize{images/Fire/distribution of numerical columns.png}}
+    \caption{Histograms illustrating the distribution of key numerical variables (\texttt{latitude}, \texttt{longitude}, \texttt{bright\_ti4}, \texttt{frp}, \texttt{scan}, \texttt{track}, \texttt{bright\_ti5}) in the merged fire dataset.}\label{fig:histograms}
 \end{figure}
 
 The distributions of the numerical columns were visualized using histograms, revealing a heavily left-skewed distribution for intensity variable \texttt{frp}, indicating that most fire detections are of low power, with few extreme events.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{images/Fire/heatmaps of numerical.png}
-    \caption{Heatmap of the Pearson correlation matrix for numerical variables. High correlation exists between the brightness temperatures and the pixel dimensions.}
-    \label{fig:heatmap}
+    \includegraphics[width=0.5\textwidth]{\detokenize{images/Fire/heatmaps of numerical.png}}
+    \caption{Heatmap of the Pearson correlation matrix for numerical variables. High correlation exists between the brightness temperatures and the pixel dimensions.}\label{fig:heatmap}
 \end{figure}
 
 A correlation matrix heatmap was generated to explore relationships between the numerical features. Key findings include:

@@ -44,8 +44,8 @@
 % IMPORTANT: remove any \titleformat{\chapter} redefinition.
 % fncychap must control \chapter, so DO NOT redefine it with titlesec.
 % --------------------------------------------------------------------
-\usepackage{hyperref}         % keep hyperref near the end
 \usepackage{natbib}
+\usepackage{hyperref}         % keep hyperref near the end
 
 % --------------------------------------------------------------------
 % Document info
@@ -70,9 +70,10 @@
 \chapter{Data Description And Visualisation}
 \input{chapters/data_desc_viz/data_description_viz}
 
-
-\chapter{Data Cleaning and Preprocessing}
+\chapter{Data Cleaning and Initial Feature Preparation}
 \input{chapters/data_cleaning/data_cleaning.tex}
+\chapter{Data Integration and Preprocessing}
+\input{chapters/data_integration_preprocessing/data_integration_preprocessing.tex}
 
 \chapter{Feature Engineering}
 \input{chapters/feature_engineering/feature_engineering}

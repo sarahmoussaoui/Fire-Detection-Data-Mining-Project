@@ -1,0 +1,9 @@
+\section{Climate Data}\label{subsec:climate_extraction}
+
+Monthly climate variables were extracted from the \textit{WorldClim v2.1} global dataset, using the monthly weather product available at a spatial resolution of 5 arc-minutes (approximately 10~km). The variables considered include total precipitation, minimum temperature, and maximum temperature, provided as monthly GeoTIFF rasters.
+
+An Area of Interest (AOI) covering Algeria and Tunisia was defined from a GeoPackage and all spatial layers were standardized to the WGS84 geographic coordinate system (EPSG:4326) to ensure spatial consistency. A regular spatial grid was then constructed over the AOI, with a fixed angular resolution, and intersected with the AOI boundary. Each grid cell was assigned a unique identifier (\texttt{cell\_id}), and the centroid of each cell was computed to serve as a representative sampling location.
+
+For each monthly raster file, the data were processed through a standardized pipeline: the raster was opened using \texttt{rioxarray}, assigned a coordinate reference system if missing, reprojected to EPSG:4326 when necessary using bilinear resampling, and clipped to the AOI geometry. Climate values were then extracted at the grid centroids using nearest-neighbor sampling, yielding one observation per grid cell and per month.
+
+Temporal information was derived directly from raster filenames, with the year and month parsed and stored explicitly in the output tables. The resulting datasets were organized in a tidy long format (\texttt{cell\_id}, \texttt{year}, \texttt{month}, value) and exported primarily in Parquet format, with an automatic fallback to CSV when required. Basic validation checks were performed throughout the process, including verification of value ranges before and after clipping, assessment of missing data ratios, and inspection of sampled values for selected months to ensure consistency.
