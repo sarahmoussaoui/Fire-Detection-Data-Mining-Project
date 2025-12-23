@@ -1,5 +1,3 @@
-\section{Land Cover data description and visualization}
-
 Following the initial data integration, this section performs a detailed Exploratory Data Analysis (EDA) on the merged Land Cover dataset (\texttt{landcover\_combined.geojson}) to assess its structure, identify redundant features, and prepare the complex classification codes for modeling.
 
 \subsection{Data Structure and Integrity}
@@ -50,18 +48,18 @@ The distribution of land cover types was visualized to understand the regional c
 
  
 
-\subsection{Classification Code Harmonization}
+% \subsection{Classification Code Harmonization}
 
-The raw $\texttt{lcccode}$ column contains complex codes (e.g., \texttt{7001 // 8001}) which represent mixed, uncertain, or transitional land cover types. The separator (\texttt{//}) indicates a mixture between the two classes (e.g., Shrubland and Bare/Sparse vegetation). To handle this complexity for machine learning, the following steps were taken:
+% The raw $\texttt{lcccode}$ column contains complex codes (e.g., \texttt{7001 // 8001}) which represent mixed, uncertain, or transitional land cover types. The separator (\texttt{//}) indicates a mixture between the two classes (e.g., Shrubland and Bare/Sparse vegetation). To handle this complexity for machine learning, the following steps were taken:
 
-\textbf{Legend Integration}
-The official legend files (\texttt{globcover\_LCCS\_legend\_africa.xls} and \texttt{globcover\_legend.xls}) were loaded to establish a mapping between the numeric codes and descriptive labels.
+% \textbf{Legend Integration}
+% The official legend files (\texttt{globcover\_LCCS\_legend\_africa.xls} and \texttt{globcover\_legend.xls}) were loaded to establish a mapping between the numeric codes and descriptive labels.
 
-\begin{itemize}
-    \item The $\texttt{LCCCode}$ was mapped to its descriptive label ($\texttt{LCCOwnLabel}$) using a dictionary.
-    \item This process identified that certain codes were designated as ``Error'' in the $\texttt{LC}$ column of the legend, yet represented valid land cover types in the $\texttt{LCCOwnLabel}$ column (e.g., ``Closed forest''). This confirmed that these codes should be retained and mapped correctly.
-\end{itemize}
+% \begin{itemize}
+%     \item The $\texttt{LCCCode}$ was mapped to its descriptive label ($\texttt{LCCOwnLabel}$) using a dictionary.
+%     \item This process identified that certain codes were designated as ``Error'' in the $\texttt{LC}$ column of the legend, yet represented valid land cover types in the $\texttt{LCCOwnLabel}$ column (e.g., ``Closed forest''). This confirmed that these codes should be retained and mapped correctly.
+% \end{itemize}
 
-\textbf{High-Level Mapping}
-Given the 22 unique $\texttt{lcccode}$ values in the dataset, a high-level, simplified mapping was created to aggregate these codes into fundamental categories (e.g., ``Forests,'' ``Bare lands,'' ``Croplands,'' ``Vegetation,'' etc.). 
-This step is crucial for reducing the complexity of the model's fire prediction.
+% \textbf{High-Level Mapping}
+% Given the 22 unique $\texttt{lcccode}$ values in the dataset, a high-level, simplified mapping was created to aggregate these codes into fundamental categories (e.g., ``Forests,'' ``Bare lands,'' ``Croplands,'' ``Vegetation,'' etc.). 
+% This step is crucial for reducing the complexity of the model's fire prediction.

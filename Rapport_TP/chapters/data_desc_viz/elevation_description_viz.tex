@@ -1,5 +1,3 @@
-\section{Elevation data description and visualization}
-
 This section details the analysis and statistical exploration of the extracted \textbf{Elevation Dataset} for the combined region of Algeria and Tunisia. The dataset, previously clipped and saved as a GeoTIFF (\texttt{elevation\_dz\_tn.tif}), is examined for data integrity, statistical properties, and spatial distribution.
 
 \subsection{Data Loading and Integrity Check}
@@ -7,7 +5,7 @@ This section details the analysis and statistical exploration of the extracted \
 The analysis begins by loading the processed raster file using \texttt{rasterio}.
 
 \begin{itemize}
-    \item \textbf{No-Data Handling:} An integrity check was performed to identify and quantify the raster's no-data values (\texttt{nodata\_value}). These values, often representing areas outside the clipped boundary or sea level, were masked out during statistical calculations to ensure accurate topographical analysis. The initial count of missing values was recorded.
+    \item \textbf{No-Data Handling:} An integrity check was performed to identify and quantify the raster's no-data values (\texttt{nodata\_value}). These values, often representing areas outside the clipped boundary or sea level, were masked out during statistical calculations to ensure accurate topographical analysis.
 \end{itemize}
 
 
@@ -64,5 +62,5 @@ The elevation histogram displays a clear \textbf{left-skewed distribution}. This
 \end{figure}
 
 \textbf{Boxplot Interpretation}
-The boxplot confirms the presence of significant high-elevation \textbf{outliers}. These extreme values correspond to the highest points in the study area, notably the \textbf{Tassili n’Ajjer} and the \textbf{Hoggar Mountains (Ahaggar)} in southern Algeria, which reach peak elevations of approximately 2900 to 3000 meters.
+The boxplot confirms the presence of significant high-elevation \textbf{outliers}. These extreme values correspond to the highest points in the study area, notably the \textbf{Tassili n’Ajjer} and the \textbf{Hoggar Mountains (Ahaggar)} in southern Algeria, which reach peak elevations of approximately 2100 to 3000 meters.
 
