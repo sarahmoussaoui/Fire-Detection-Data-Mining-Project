@@ -36,32 +36,6 @@ Temperature features were standardized (z-score), while precipitation features w
 \subsection{Elevation Features:} 
 Standard scaling was applied to the elevation variable.
 
-\subsection{Landcover Features:} 
-The original land cover codes (\texttt{lcccode}) were transformed into higher-level categories (\texttt{lcc\_highlevel}) to simplify the representation of land types. 
-For instance:
-\begin{itemize}
-    \item Multiple codes corresponding to water-related classes (e.g., 7001, 8001) were grouped as ``Water bodies''.
-    \item Forest-related codes (e.g., 21497-121340) were grouped as ``Forests''.
-\end{itemize}
-This high-level categorization reduces the number of classes and improves model interpretability, while preserving the main land cover distinctions.
-
-\begin{table}[H]
-    \centering
-    \caption{Example of Landcover Transformation from \texttt{lcccode} to \texttt{lcc\_highlevel}}
-    \label{tab:landcover_highlevel}
-    \begin{tabular}{cc}
-        \toprule
-        \textbf{lcccode} & \textbf{lcc\_highlevel} \\
-        \midrule
-        7001 // 8001      & Water bodies \\
-        7001 // 8001      & Water bodies \\
-        7001 // 8001      & Water bodies \\
-        21497-121340      & Forests \\
-        7001 // 8001      & Water bodies \\
-        \bottomrule
-    \end{tabular}
-\end{table}
-
 
 \subsection{Saving the Normalized Data}
 The final normalized dataset (\texttt{X\_train}) was saved in Parquet format for subsequent modeling steps.
