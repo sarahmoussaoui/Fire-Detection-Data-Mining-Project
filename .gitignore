@@ -5,7 +5,7 @@ ExtractedDatasets/
 CleanedDatasets/
 PreprocessedDatasets/
 Cleaned_Data/
-MergedDatasets/
+MergedDatasets
 Rapport_TP/*.aux
 Rapport_TP/*.bbl
 Rapport_TP/*.blg

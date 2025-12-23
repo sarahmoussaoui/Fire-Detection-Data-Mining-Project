@@ -1,0 +1,57 @@
+\section{Random Forest}
+
+The Random Forest (RF) classifier was evaluated using the scikit-learn implementation on the SMOTE, Tomek, and SMOTE-Tomek resampled datasets. Training was performed using default hyperparameters unless specified otherwise, and performance was assessed using validation accuracy and class-specific metrics.
+
+\subsection{Performance Across Resampling Strategies}
+
+\begin{table}[H]
+\centering
+\caption{Scikit-Learn Random Forest Performance Across Resampling Strategies}
+\begin{tabular}{|l|c|c|c|c|c|c|c|}
+\hline
+\textbf{Resampling} & \textbf{Training Time (s)} & \textbf{Training Acc.} & \textbf{Validation Acc.} & \textbf{Class 0 Precision} & \textbf{Class 0 Recall} & \textbf{Class 1 Precision} & \textbf{Class 1 Recall} \\ \hline
+SMOTE & 4.61 & 0.9599 & 0.9008 & 0.98 & 0.91 & 0.33 & 0.68 \\ \hline
+Tomek & 1.29 & 0.9745 & 0.9471 & 0.96 & 0.98 & 0.57 & 0.36 \\ \hline
+SMOTE-Tomek & 4.11 & 0.9614 & 0.8973 & 0.98 & 0.91 & 0.31 & 0.66 \\ \hline
+\end{tabular}
+\end{table}
+
+\subsection{Bayesian Optimization for Random Forest}
+
+Bayesian Optimization was applied to tune hyperparameters of the Random Forest classifier on the SMOTE-Tomek dataset. The search space included:
+
+\begin{itemize}
+    \item \texttt{n\_estimators}: 50 to 200
+    \item \texttt{max\_depth}: 5 to 25
+    \item \texttt{max\_features}: 0.1 to 0.9
+\end{itemize}
+
+\begin{table}[H]
+\centering
+\caption{Selected Iterations from Bayesian Optimization for Random Forest}
+\label{tab:rf_bayes_iterations}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\textbf{Iteration} & \textbf{CV Accuracy} & \textbf{n\_estimators} & \textbf{max\_depth} & \textbf{max\_features} \\ \hline
+1  & 0.9691 & 106 & 24.01 & 0.686 \\ 
+3  & 0.9678 & 59  & 22.32 & 0.581 \\ 
+6  & 0.9695 & 109 & 24.21 & 0.636 \\ 
+10 & 0.9703 & 71  & 25.00 & 0.100 \\ 
+16 & 0.9710 & 175 & 25.00 & 0.100 \\ 
+19 & 0.9710 & 159 & 25.00 & 0.100 \\ \hline
+\end{tabular}
+\end{table}
+
+The Bayesian Optimization completed in approximately 419 seconds. The optimal hyperparameters identified were:
+
+\begin{itemize}
+    \item \texttt{n\_estimators}: 159
+    \item \texttt{max\_depth}: 25
+    \item \texttt{max\_features}: 0.1
+    \item \texttt{random\_state}: 42
+    \item \texttt{n\_jobs}: -1
+\end{itemize}
+
+\subsection{Discussion}
+
+The Random Forest classifier achieved consistently high performance on the majority class (Class 0) across all resampling strategies, with SMOTE slightly improving minority class recall. Bayesian optimization further improved validation accuracy, achieving 0.9336 on the SMOTE-Tomek dataset. Training times were reasonable, and Random Forest proved to be robust for handling class imbalance in forest fire prediction tasks.
