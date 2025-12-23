@@ -1,0 +1,55 @@
+\section{DBSCAN Model Configuration and Evaluation}
+
+DBSCAN experiments were conducted on the \textbf{normalized dataset}, as density estimation is entirely distance-driven and highly sensitive to feature scale. Normalization ensures that all variables contribute equally to neighborhood density. Prior to clustering, \textbf{PCA was applied with $n\_components = 8$}, chosen to preserve the majority of variance while reducing dimensionality, noise, and distance sparsity effects that negatively impact density-based methods.
+
+Hyperparameters were optimized using \textbf{Bayesian Search}, leading to the following best configuration:
+\begin{itemize}
+    \item $\varepsilon = 0.8207$
+    \item \texttt{min\_samples} = 40
+\end{itemize}
+
+This optimized configuration increased cluster granularity and separation compared to default settings, while controlling noise. The optimized parameters were then reused for the \textbf{from-scratch DBSCAN implementation} to ensure methodological consistency.
+
+\subsection{DBSCAN Performance Metrics}
+
+\paragraph{Library-Based DBSCAN (Default vs Optimized)}
+\begin{table}[H]
+\centering
+\caption{DBSCAN metrics comparison using default and Bayesian-optimized parameters}
+\begin{tabular}{lcc}
+\hline
+\textbf{Metric} & \textbf{Default} & \textbf{Optimized} \\
+\hline
+$\varepsilon$              & 2.8000 & 0.8207 \\
+min\_samples               & 15     & 40     \\
+Number of clusters         & 5      & 11     \\
+Noise ratio (\%)           & 0.07   & 9.21   \\
+Silhouette score           & -0.2686 & -0.2268 \\
+Davies--Bouldin index      & 2.3095 & 2.3344 \\
+Calinski--Harabasz index   & 360318.48 & 199812.16 \\
+AMI                        & 0.0175 & 0.0414 \\
+ARI                        & 0.0872 & 0.0220 \\
+\hline
+\end{tabular}
+\end{table}
+
+\paragraph{From-Scratch DBSCAN Results}
+\begin{table}[H]
+\centering
+\caption{From-scratch DBSCAN metrics on validation and test sets}
+\begin{tabular}{lcc}
+\hline
+\textbf{Metric} & \textbf{Validation} & \textbf{Test} \\
+\hline
+Number of clusters        & 6      & 5      \\
+Noise ratio (\%)          & 22.17  & 22.46  \\
+Silhouette score          & -0.1811 & -0.0038 \\
+Davies--Bouldin index     & 5.7928 & 4.4261 \\
+Calinski--Harabasz index  & 931.19 & 1133.32 \\
+AMI                       & 0.0293 & 0.0335 \\
+ARI                       & -0.0014 & 0.0054 \\
+\hline
+\end{tabular}
+\end{table}
+
+The results confirm that DBSCAN captures \textbf{local density patterns} rather than class separation. Higher noise ratios and low silhouette values are expected given overlapping fire and non-fire regions, while cluster-level fire rates reveal meaningful density-based risk zones despite weak global clustering scores.

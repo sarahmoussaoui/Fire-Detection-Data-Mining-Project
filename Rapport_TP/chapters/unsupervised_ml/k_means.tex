@@ -1,0 +1,54 @@
+\section{K-Means Model Configuration and Evaluation}
+
+K-Means clustering was applied on the \textbf{normalized and resampled dataset}, as normalization is essential to prevent features with large numeric ranges from dominating centroid distances, while resampling was used to mitigate class imbalance effects when interpreting clusters with respect to fire occurrence. Prior to clustering, \textbf{PCA with $n\_components = 2$} was applied to reduce dimensionality while preserving the dominant variance structure and enabling more stable and interpretable cluster separation.
+
+Hyperparameter tuning was performed using \textbf{Bayesian Search}, which identified an optimized configuration with a higher number of clusters and improved compactness. The best parameters retained were:
+\begin{itemize}
+    \item Number of clusters ($K$): 8
+    \item Initialization: \texttt{k-means++}
+    \item Maximum iterations: 300
+    \item Number of initializations: 20
+\end{itemize}
+
+These parameters were used for both the predefined implementation and the from-scratch K-Means model to ensure consistency.
+
+\subsection{K-Means Performance Metrics}
+
+\paragraph{Predefined K-Means (Default vs Optimized)}
+\begin{table}[H]
+\centering
+\caption{K-Means metrics comparison using default and Bayesian-optimized parameters}
+\begin{tabular}{lcc}
+\hline
+\textbf{Metric} & \textbf{Default} & \textbf{Optimized} \\
+\hline
+Number of clusters ($K$) & 3 & 8 \\
+Inertia & 2,788,088,043.64 & 662,669,890.31 \\
+Silhouette score & 0.7148 & 0.5991 \\
+Davies--Bouldin index & 0.2921 & 0.4907 \\
+Calinski--Harabasz index & 2,808,357.00 & 3,382,356.63 \\
+Number of iterations & 5 & 5 \\
+Runtime (s) & 3.29 & 0.47 \\
+\hline
+\end{tabular}
+\end{table}
+
+\paragraph{From-Scratch K-Means Results}
+\begin{table}[H]
+\centering
+\caption{From-scratch K-Means metrics on validation and test sets}
+\begin{tabular}{lc}
+\hline
+\textbf{Metric} & \textbf{Value} \\
+\hline
+Number of clusters ($K$) & 5 \\
+Inertia & 2,317,876,870.35 \\
+Silhouette score & 0.60 \\
+Number of iterations & 26 \\
+Runtime (s) & 6.98 \\
+Centroids shape & $(5,\,64)$ \\
+\hline
+\end{tabular}
+\end{table}
+
+The optimized predefined K-Means model achieved a significantly lower inertia and faster convergence, while the from-scratch implementation required more iterations to converge but reached comparable silhouette performance. Differences are primarily attributed to centroid initialization strategy and convergence criteria implementation details.

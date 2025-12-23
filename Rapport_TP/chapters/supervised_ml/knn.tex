@@ -1,0 +1,47 @@
+\section{KNN Model Configuration and Evaluation}
+
+For the KNN model, several dataset variants were tested, and the final model was trained on the \textbf{normalized data combined with SMOTE+Tomek resampling}. Normalization was essential since KNN is distance-based; without scaling, features with larger numeric ranges would dominate distance computations and bias the model. Hyperparameter tuning was performed using \textbf{Bayesian Search}, which allowed efficient exploration of the parameter space and selection of an optimal configuration focused on maximizing the F1-score.
+
+The best parameters obtained are summarized as follows: Algorithm: \texttt{kd\_tree}, Distance metric: \texttt{Manhattan} (\(p = 1\)), Number of neighbors: \(k = 4\), Weights: \texttt{distance}.
+This configuration achieved a \textbf{best cross-validation F1-score of 0.9614}. These exact parameters were then reused to train the \textbf{from-scratch KNN implementation}, ensuring a fair and consistent comparison with the library-based model.
+\subsection{Model Performance}
+
+The trained model was evaluated on both validation and test sets using multiple performance metrics. K-fold cross-validation was not applied at this stage since normalization was fitted exclusively on the training set.
+
+\begin{table}[H]
+\centering
+\caption{KNN performance metrics on validation and test sets}
+\begin{tabular}{lcc}
+\hline
+\textbf{Metric} & \textbf{Validation} & \textbf{Test} \\
+\hline
+Accuracy    & 0.8924 & 0.8852 \\
+Precision   & 0.3082 & 0.2909 \\
+Recall      & 0.6915 & 0.6782 \\
+Specificity & 0.9048 & 0.8980 \\
+F1-score    & 0.4264 & 0.4071 \\
+MCC         & 0.4142 & 0.3939 \\
+ROC-AUC     & 0.8789 & 0.8551 \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{From-scratch KNN performance metrics on training, validation, and test sets}
+\begin{tabular}{lccc}
+\hline
+\textbf{Metric} & \textbf{Validation} & \textbf{Test} \\
+\hline
+Accuracy      & 0.8873 & 0.8769 \\
+Precision     & 0.3047 & 0.2776 \\
+Recall        & 0.7413 & 0.6980 \\
+Specificity   & 0.8962 & 0.8879 \\
+F1-score      & 0.4319 & 0.3972 \\
+MCC           & 0.4280 & 0.3881 \\
+ROC-AUC       & 0.8852 & 0.8636 \\
+\hline
+\end{tabular}
+\end{table}
+
+Overall, the results indicate that the KNN model favors \textbf{recall and ROC-AUC}, which is appropriate for fire prediction scenarios where failing to detect a fire event is more critical than generating false positives.
