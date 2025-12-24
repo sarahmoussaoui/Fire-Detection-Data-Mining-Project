@@ -18,13 +18,7 @@ This step allows the identification of which soil variables are responsible for 
 
 To ensure that missingness was not spatially structured (for example concentrated in a specific region), a compact geospatial visualization was produced.
 Instead of generating one map per feature, all numeric variables were displayed using a single grid of subplots, providing a global view of their spatial variation while keeping the report concise.
-Figure~\ref{fig:soil-maps-numeric} illustrates these spatial patterns and confirms the expected geographic heterogeneity of soil properties across the study area.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=\textwidth]{images/Soil/soil_maps_numeric_variation}
-    \caption{Spatial variation maps (subplot grid) of the numeric soil variables over the study area.}\label{fig:soil-maps-numeric}
-\end{figure}
+see Annex~\ref{annexe:soil-cleaning-summary} illustrates these spatial patterns and confirms the expected geographic heterogeneity of soil properties across the study area.
 
 \subsubsection{Cross-check of missing patterns for key variables}
 
@@ -126,23 +120,11 @@ The imputation workflow was implemented as follows:
 \begin{enumerate}
     \item \textbf{Identification of Invalid Records}: A boolean mask (\texttt{is\_invalid}) was created to identify rows where all targeted physical soil attributes were negative.
     \item \textbf{Preparation of Spatial Data}: All coordinates were ensured to be expressed in WGS84 latitude/longitude and converted to radians, as required for great-circle distance calculations.
-    \item \textbf{Construction of a BallTree}: A BallTree data structure was built using only valid soil records, with the haversine distance metric. This structure enables efficient spatial nearest-neighbor searches.
+    \item \textbf{Construction of a BallTree}: A BallTree data structure was built using only valid soil records, with the haversine distance metric see Annex~\ref{annexe:soil-cleaning-summary}. This structure enables efficient spatial nearest-neighbor searches.
     \item \textbf{Neighbor Querying}: For each invalid record, the 8 nearest valid neighbors within a 100~km radius were queried. If no valid neighbors were found within this radius, the 8 nearest neighbors were retrieved regardless of distance.
     \item \textbf{Median-Based Imputation}: For each numeric soil attribute, the median of the neighboring valid values was computed and used to replace the invalid negative value. As all imputed attributes were numeric, no categorical imputation was required.
     \item \textbf{Dataset Update}: The DataFrame was updated with the imputed values, and an audit check confirmed that no records remained with all-negative soil attributes.
 \end{enumerate}
-
-\subsubsection{BallTree Algorithm in the Context of Soil Data}
-
-The BallTree algorithm played a central role in enabling efficient and spatially meaningful imputation. A BallTree recursively partitions the data space into nested hyperspherical regions (``balls''), allowing rapid nearest-neighbor searches compared to brute-force approaches\cite{omohundro1989five, scikit-learn-balltree}. 
-
-In this study, the use of the haversine metric ensured that distances between points were computed as true great-circle distances on the Earth's surface, making the notion of ``nearest'' geographically accurate\cite{haversine}. This was particularly important for soil properties, which are spatially autocorrelated. Without a spatial indexing structure such as BallTree, querying neighbors for 5,480 invalid records against a large geospatial dataset would have been computationally prohibitive. The BallTree approach therefore provided both efficiency and physical relevance.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.7\textwidth]{images/Soil/BallTree.jpg}
-    \caption{Conceptual illustration of the BallTree data structure, showing recursive spatial partitioning and efficient nearest-neighbor search.}\label{fig:balltree}
-\end{figure}
 
 \subsubsection{Post-Imputation Validation}
 After imputation, \textbf{ all 5,480 previously invalid records were corrected}. We verified that no record now has all negative values in the key soil columns (the count of fully-invalid rows dropped to 0). We also generated a new spatial plot: the blue points indicating invalid records have disappeared, confirming that our imputation filled in plausible values for those locations. The dataset's overall quality improved, as every soil property value is now within a realistic range.
@@ -153,25 +135,7 @@ In summary, we detected a large batch of outlier records characterized by imposs
     \includegraphics[width=0.7\textwidth]{images/Soil/soil_maps_numeric_variation_after_invalid_imputation}
     \caption{Histograms of soil attributes after nearest-neighbor imputation, showing consistent and physically plausible distributions.}\label{fig:soil_imputation_validation}
 \end{figure}
-
-\subsection{Residual Outliers After Imputation}
-
-After correcting invalid negative records using spatial nearest-neighbor imputation, the soil dataset was re-evaluated for remaining outliers. Although the physically impossible values were successfully eliminated, statistical outliers were still detected across several soil variables. These remaining outliers do not necessarily correspond to data errors, but rather reflect natural soil heterogeneity, extreme environmental conditions, or localized geochemical regimes.
-
-Figure~\ref{fig:soil_kde_after_imputation} and Figure~\ref{fig:soil_qq_after_imputation} summarize the post-imputation distributions using kernel density estimates (KDE) and Quantiles plots, respectively.
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=\textwidth]{images/Soil/soil_kde_all_after_imputation.png}
-\caption{Kernel density estimates of soil variables after imputation. Vertical lines indicate mean, median, and mode.}\label{fig:soil_kde_after_imputation}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=\textwidth]{images/Soil/soil_qq_numeric_after_imputation.png}
-\caption{Quantiles plots of numeric soil variables after imputation, highlighting deviations from normality.}\label{fig:soil_qq_after_imputation}
-\end{figure}
-
+The resulting soil property distributions after imputation are shown in Annex~\ref{annexe:soil-cleaning-summary}, confirming that all variables now exhibit realistic ranges and shapes without negative values.
 \subsubsection*{Detected Statistical Outliers}
 
 Using an interquartile-range (IQR)-based detector, the following number of outliers were identified after imputation:
@@ -257,7 +221,7 @@ Because both texture variables are deterministic functions of the same base frac
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=\textwidth]{images/Soil/soil_parallel_coordinates_texture.png}
+\includegraphics[width=0.45\textwidth]{images/Soil/soil_parallel_coordinates_texture.png}
 \caption{Parallel coordinates of particle-size fractions grouped by \texttt{TEXTURE\_USDA} (left) and \texttt{TEXTURE\_SOTER} (right), showing that both texture classes are deterministic encodings of sand, silt, and clay composition.}\label{fig:texture_parallel}
 \end{figure}
 
@@ -274,7 +238,7 @@ Minor deviations from the identity line are attributable to rounding effects and
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=\textwidth]{images/Soil/soil_ORG_CARBON_per_TOTAL_N_vs_CN_RATIO_scatter_qq.png}
+\includegraphics[width=0.45\textwidth]{images/Soil/soil_ORG_CARBON_per_TOTAL_N_vs_CN_RATIO_scatter_qq.png}
 \caption{Scatter and Q-Q plots comparing \texttt{CN\_RATIO} to the recomputed ratio \texttt{ORG\_CARBON / TOTAL\_N}, confirming a near-deterministic relationship.}\label{fig:cn_ratio}
 \end{figure}
 
@@ -292,7 +256,7 @@ This variability reflects the influence of additional factors such as organic ma
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=\textwidth]{images/Soil/soil_CEC_SOIL_per_CLAY_vs_CEC_CLAY_scatter_qq.png}
+\includegraphics[width=0.45\textwidth]{images/Soil/soil_CEC_SOIL_per_CLAY_vs_CEC_CLAY_scatter_qq.png}
 \caption{Scatter and Q-Q plots comparing \texttt{CEC\_SOIL\_per\_CLAY} with observed \texttt{CEC\_CLAY}, showing substantial deviation from a one-to-one relationship.}\label{fig:cec_clay}
 \end{figure}
 
@@ -309,7 +273,7 @@ Accordingly, \texttt{BSAT} was removed from the feature set to avoid redundancy 
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=\textwidth]{images/Soil/soil_TEB_per_CEC_EFF_vs_BSAT_scatter_qq.png}
+\includegraphics[width=0.45\textwidth]{images/Soil/soil_TEB_per_CEC_EFF_vs_BSAT_scatter_qq.png}
 \caption{Scatter and Q-Q plots illustrating the strong dependency between \texttt{BSAT} and the computed ratio \texttt{TEB / CEC\_EFF}.}\label{fig:bsat}
 \end{figure}
 
