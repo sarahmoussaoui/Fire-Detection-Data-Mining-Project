@@ -64,6 +64,10 @@
 % --------------------------------------------------------------------
 % Chapters
 % --------------------------------------------------------------------
+\clearpage
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
 \chapter{Data Extraction}
 \input{chapters/data_extraction/data_extraction}
 
@@ -83,6 +87,15 @@
 
 \chapter{Unsupervised Machine Learning}
 \input{chapters/unsupervised_ml/unsupervised_ml}
+
+\clearpage
+\pagenumbering{gobble}
+\pagestyle{empty}
+
+% --------------------------------------------------------------------
+\appendix
+\input{Annexes/general_annex.tex}
+
 
 % --------------------------------------------------------------------
 \bibliographystyle{plain}   % or plainnat, ieeetr, etc.

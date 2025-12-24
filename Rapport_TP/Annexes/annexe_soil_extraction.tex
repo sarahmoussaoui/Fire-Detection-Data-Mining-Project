@@ -1,0 +1,291 @@
+\section{Soil Data Extraction from HWSD2}\label{annexe:soil_extraction}
+
+This section describes in detail how the soil variables were extracted from the
+Harmonized World Soil Database v2 (HWSD2) and mapped onto the common $0.1^{\circ}$
+grid used in this project. The objective is to derive, for each $0.1^{\circ}$ cell
+within the Algeria--Tunisia area of interest (AOI), a set of physically meaningful
+topsoil properties (0--20\,cm) suitable for downstream fire prediction models.
+
+\subsection{Implementation environment}
+
+The extraction is implemented in Python using the following main libraries:
+
+\begin{itemize}
+    \item \textbf{NumPy} and \textbf{pandas} for numerical arrays and tabular
+    data manipulation.
+    \item \textbf{GeoPandas} and \textbf{shapely} for vector geometries
+    (reading the AOI, fixing topology, constructing grid-cell polygons).
+    \item \textbf{rioxarray} and \textbf{rasterio} (via
+    \texttt{rasterio.enums.Resampling}) for raster I/O, clipping and
+    resampling of the HWSD2 soil map.
+    \item \textbf{pyodbc} to connect to the \texttt{HWSD2.mdb} Microsoft
+    Access database.
+    \item \textbf{matplotlib} for quick visualisation (e.g.\ map of pH).
+\end{itemize}
+
+A small utility function ensures that output directories exist before writing
+files, so that all CSV and GeoPackage outputs are created under the desired
+folder structure without manual preparation.
+
+\subsection{Input HWSD2 data and file structure}
+
+The HWSD2 dataset is provided in two main components:
+
+\begin{itemize}
+    \item \textbf{HWSD2\_RASTER/} containing:
+    \begin{itemize}
+        \item \texttt{HWSD2.bil}: a Binary Interleaved raster whose pixel values
+        are integer \emph{soil mapping unit} codes.
+        \item \texttt{HWSD2.hdr}: an ASCII header specifying raster dimensions
+        (number of rows/columns), data type, byte order, cell size and origin.
+        \item \texttt{HWSD2.prj}: the projection (WKT) describing the coordinate
+        reference system (CRS), typically a geographic CRS close to EPSG:4326.
+        \item \texttt{HWSD2.stx}: an ancillary statistics or index file; its
+        content is not directly used in this workflow.
+    \end{itemize}
+    \item \textbf{HWSD2\_DB/} containing:
+    \begin{itemize}
+        \item \texttt{HWSD2.mdb}: a Microsoft Access database which stores the
+        attribute tables describing the soil mapping units and their properties.
+    \end{itemize}
+\end{itemize}
+
+The raster \texttt{HWSD2.bil} does \emph{not} contain soil properties directly.
+Instead, each pixel stores an integer code identifying a \emph{Soil Mapping Unit}
+(SMU). The associated lookup tables in \texttt{HWSD2.mdb} link these SMU codes
+to detailed physical and chemical soil attributes.
+
+From a database perspective, the key tables are:
+
+\begin{itemize}
+    \item \textbf{HWSD2\_SMU}: one row per soil mapping unit, with a primary key
+    such as \texttt{HWSD2\_SMU\_ID}. This table provides high-level,
+    mapping-unit-level attributes (coverage, dominant texture class, drainage,
+    classification codes, etc.).
+    \item \textbf{HWSD2\_LAYERS}: up to seven rows per SMU, each corresponding
+    to a depth interval (layers D1, D2, D3, \dots). This table stores numeric
+    soil properties per layer, such as sand/silt/clay percentages, organic
+    carbon, pH, bulk density, cation exchange capacity and so on.
+    \item \textbf{Dictionary (D\_*) tables}: codebooks that map categorical
+    codes in \texttt{HWSD2\_SMU} and \texttt{HWSD2\_LAYERS} to human-readable
+    labels. Examples include \texttt{D\_TEXTURE\_USDA}, \texttt{D\_DRAINAGE},
+    \texttt{D\_AWC}, \texttt{D\_ROOT\_DEPTH}, \texttt{D\_ROOTS},
+    \texttt{D\_PHASE}, \texttt{D\_IL}, \texttt{D\_SWR}, \texttt{D\_ADD\_PROP},
+    \texttt{D\_FAO90}, \texttt{D\_COVERAGE} and \texttt{D\_KOPPEN}.
+    \item \textbf{WRB/FAO classification tables}: e.g.\ \texttt{WRB\_Class},
+    \texttt{D\_WRB4}, \texttt{D\_WRB2}, \texttt{D\_WRB\_PHASES}, which link WRB
+    and FAO symbols (\texttt{WRB4}, \texttt{WRB2}, \texttt{WRB\_PHASES},
+    \texttt{FAO90}) to their class names and sometimes colors.
+    \item \textbf{Metadata tables}: \texttt{HWSD2\_SMU\_METADATA} and
+    \texttt{HWSD2\_LAYERS\_METADATA}, which list for each field its name,
+    unit, textual description and, when applicable, the corresponding
+    dictionary table (column \texttt{DOMAIN}).
+\end{itemize}
+
+These metadata tables are crucial to interpret the units (e.g.\ \% for
+\texttt{SAND}, pH units for \texttt{PH\_WATER}) and to know which categorical
+fields can be decoded via which dictionary table.
+
+\subsection{Mapping units (MU / SMU) as join keys}
+
+In HWSD2, each raster pixel holds an integer code representing a soil mapping
+unit. The terminology varies slightly across versions and documentation
+(\texttt{MU\_GLOBAL}, \texttt{SMU\_ID}, \texttt{HWSD2\_SMU\_ID}, etc.), but the
+concept is always the same:
+
+\begin{itemize}
+    \item The raster band is a grid where each cell contains a single integer.
+    \item That integer is an identifier for a soil mapping unit, not a physical
+    variable.
+    \item The details (texture, carbon, pH, etc.) are stored in the database
+    and must be looked up using this identifier as a foreign key.
+\end{itemize}
+
+The extraction workflow therefore uses the raster only to determine the mapping
+unit present in each $0.1^{\circ}$ grid cell in the AOI, then uses that ID to
+retrieve the corresponding topsoil properties from \texttt{HWSD2.mdb}.
+
+\subsection{Construction of a 0.1\texorpdfstring{$^{\circ}$}{°} mapping-unit grid}
+
+The first step is to build a regular $0.1^{\circ} \times 0.1^{\circ}$ grid of
+mapping-unit IDs over the Algeria--Tunisia AOI.
+
+\paragraph{AOI preparation.}
+
+The AOI is stored as a GeoJSON file (here
+\texttt{AOI\_DZA\_TUN/aoi\_dza\_tun.geojson}) and is read as a vector dataset
+using GeoPandas. If the file does not specify a CRS, it is explicitly set to
+EPSG:4326 and then reprojected to EPSG:4326 to enforce a consistent geographic
+coordinate system. Invalid polygons are fixed using a zero-distance buffer, and
+all AOI geometries are dissolved into a single multi-polygon via a unary union.
+This geometry is then converted to a simple mapping (GeoJSON-like) structure,
+as required by the raster clipping functions.
+
+\paragraph{Raster loading and clipping.}
+
+The soil raster \texttt{HWSD2.bil} is opened with a geospatial raster reader
+(via \texttt{rioxarray.open\_rasterio}). The associated header and projection
+files provide the raster dimensions, geotransform and CRS. If no CRS is found at
+read time, a default EPSG:4326 CRS is written to the raster object, consistent
+with the AOI. The raster is then clipped to the AOI geometry, dropping pixels
+outside the study area.
+
+\paragraph{Reprojection and resampling to 0.1$^{\circ}$.}
+
+The clipped raster is resampled onto a regular grid with a target resolution of
+$0.1^{\circ}$ in longitude and latitude. Because the pixel values are categorical
+mapping-unit IDs, the resampling method must preserve categories rather than
+interpolate numeric values. For this reason, a \emph{mode} resampler (from
+\texttt{rasterio.enums.Resampling}) is used: for each $0.1^{\circ}$ grid cell,
+the most frequent mapping unit among the original pixels falling into that cell
+is chosen as the representative value.
+
+The result is a new raster aligned on a regular $0.1^{\circ}$ grid in EPSG:4326,
+where each cell contains a dominant mapping-unit ID. This raster is then
+converted to a tabular format, with one row per grid cell and columns for the
+cell centre coordinates ($x$ longitude, $y$ latitude) and the mapping-unit ID.
+No-data cells are removed, and the mapping-unit values are cast to integer.
+
+For traceability, this intermediate grid of mapping units is exported as a CSV
+file (here \texttt{hwsd2\_grid01\_debug.csv}) under
+\texttt{ExtractedDatasets/SoilFeatures/} before any database joins, so that the
+gridding step can be inspected independently.
+
+\subsection{Extraction of topsoil (D1) properties from the HWSD2 database}
+
+\paragraph{Database connection and schema inspection.}
+
+The \texttt{HWSD2.mdb} Access database is opened using a suitable ODBC driver
+(via \texttt{pyodbc}). Connection pooling is disabled to avoid handle reuse
+issues, and the connection is configured with explicit Unicode encodings
+(\texttt{utf-8} and \texttt{utf-16le}) to correctly handle any non-ASCII field
+names or metadata.
+
+Once connected, a small sample (e.g.\ five rows) is queried from the
+\texttt{HWSD2\_SMU} and \texttt{HWSD2\_LAYERS} tables to inspect their column
+names and confirm the actual primary key used for soil mapping units. Because
+naming conventions vary across releases, the code automatically searches for
+reasonable key candidates such as \texttt{HWSD2\_SMU\_ID}, \texttt{SMU\_ID},
+\texttt{MU\_GLOBAL}, \texttt{MUKEY} or \texttt{MU}. In the present database,
+the key was detected as \texttt{HWSD2\_SMU\_ID} in both \texttt{HWSD2\_SMU} and
+\texttt{HWSD2\_LAYERS}. The depth dimension is represented by a \texttt{LAYER}
+column, with values \texttt{D1}, \texttt{D2}, \dots corresponding to successive
+depth intervals.
+
+\paragraph{Choice of depth layer: D1 (0--20\,cm).}
+
+The project focuses on topsoil properties because the 0--20\,cm layer is the
+most relevant for vegetation, root activity, water balance and many fire-related
+processes. In HWSD2, this topsoil layer is encoded as \texttt{LAYER = 'D1'},
+which in the documentation corresponds to 0--20\,cm depth. Deeper layers (D2,
+D3, \dots) cover 20--50\,cm, 50--100\,cm and so on, but are not used in this
+first version of the dataset.
+
+The extraction therefore filters \texttt{HWSD2\_LAYERS} to keep only the rows
+where \texttt{LAYER = 'D1'}, effectively selecting one record per mapping unit
+for the topsoil.
+
+\paragraph{Selection and normalisation of feature columns.}
+
+A target list of soil variables is defined for modelling. These include, for
+example:
+
+\begin{itemize}
+    \item Particle-size and texture fields: \texttt{COARSE}, \texttt{SAND},
+    \texttt{SILT}, \texttt{CLAY}, as well as categorical texture classes such
+    as \texttt{TEXTURE\_USDA} and \texttt{TEXTURE\_SOTER}.
+    \item Bulk density: \texttt{BULK} and \texttt{REF\_BULK}.
+    \item Carbon and nutrients: \texttt{ORG\_CARBON}, \texttt{TOTAL\_N},
+    \texttt{CN\_RATIO}.
+    \item pH and exchange capacity: \texttt{PH\_WATER}, \texttt{CEC\_SOIL},
+    \texttt{CEC\_CLAY}, \texttt{CEC\_EFF}, \texttt{TEB}, \texttt{BSAT},
+    \texttt{ALUM\_SAT}, \texttt{ESP}.
+    \item Additional chemistry: \texttt{TCARBON\_EQ}, \texttt{GYPSUM},
+    \texttt{ELEC\_COND}.
+\end{itemize}
+
+Because column names in the MDB can differ from these canonical labels (for
+example, \texttt{BULK\_DENSITY} instead of \texttt{BULK}), a synonym mapping is
+implemented: for each desired feature, the code searches in the database schema
+for exact matches or known variants and builds a mapping from the canonical
+name to the actual column name. After loading the D1 records, the columns are
+renamed back to the canonical names so that the rest of the pipeline can treat
+them consistently.
+
+Numeric fields are then cast to numeric types, coercing invalid or missing
+entries to \texttt{NaN}. To ensure that only one D1 record per mapping unit is
+present, duplicates on the SMU key are dropped if needed.
+
+\paragraph{Interpreting categorical and classification fields.}
+
+While the extraction step primarily focuses on numeric fields, the presence of
+categorical attributes and classification codes is documented for completeness.
+Fields such as \texttt{TEXTURE\_USDA}, \texttt{DRAINAGE}, \texttt{AWC},
+\texttt{ROOT\_DEPTH}, \texttt{ROOTS}, \texttt{IL}, \texttt{PHASE1}, \texttt{PHASE2}
+and \texttt{ADD\_PROP} can be decoded using the dictionary tables mentioned
+earlier. Similarly, WRB and FAO classification codes (\texttt{WRB4}, \texttt{WRB2},
+\texttt{WRB\_PHASES}, \texttt{FAO90}) can be mapped to soil class names via
+\texttt{WRB\_Class}, \texttt{D\_WRB4}, \texttt{D\_WRB2}, \texttt{D\_WRB\_PHASES}
+and \texttt{D\_FAO90}. The metadata tables
+\texttt{HWSD2\_LAYERS\_METADATA} and \texttt{HWSD2\_SMU\_METADATA} indicate,
+for each field, which dictionary table to use (column \texttt{DOMAIN}) and what
+unit the values are expressed in. This information is essential for later
+interpretation and potential feature engineering, even if the raw extraction
+stage only stores the codes.
+
+\subsection{Join with the 0.1\texorpdfstring{$^{\circ}$}{°} grid and export}
+
+\paragraph{Key harmonisation and merge.}
+
+On the grid side, the mapping-unit column initially carries a generic name
+(e.g.\ \texttt{MU\_GLOBAL}) and is stored as an integer. On the database side,
+the SMU key is \texttt{HWSD2\_SMU\_ID}. Before merging, the script harmonises
+the key names and types: both columns are renamed to a common identifier (for
+example \texttt{HWSD2\_SMU\_ID}) and converted to a nullable integer type. A
+left join is then performed between the $0.1^{\circ}$ grid table and the D1
+layer attributes on this key.
+
+This operation attaches, to each grid cell, the full vector of topsoil
+properties corresponding to the dominant SMU in that cell. A quick coverage
+check counts the total number of grid cells and the number of cells with
+non-missing values for a representative numeric field (e.g.\ \texttt{COARSE}) to
+verify that almost all cells were successfully matched. In this case, the match
+rate is effectively 100\,\%.
+
+\paragraph{Creation of grid-cell polygons and GIS export.}
+
+For GIS usage and visual validation, each $0.1^{\circ}$ cell is converted to a
+square polygon centred at $(x, y)$ with side length $0.1^{\circ}$ (half-size
+$0.05^{\circ}$ in each direction). These polygons, together with the joined
+attributes, are stored in a GeoDataFrame with CRS EPSG:4326 and written to a
+GeoPackage file. The same data are also saved as a flat CSV table (here
+\texttt{hwsd2\_grid01\_D1.csv} under \texttt{ExtractedDatasets/SoilFeatures/})
+for use in the machine learning pipeline. The script additionally includes an
+optional export to a Parquet file (commented out in the current run) to allow a
+more compact binary representation if needed later.
+
+\paragraph{Quality checks and quick visualisation.}
+
+Basic exploratory statistics (mean, standard deviation, minimum, maximum) are
+computed for the numeric columns, and the proportion of missing values per
+variable is reported to detect potential anomalies. A quick map, such as a
+choropleth of \texttt{PH\_WATER} over the AOI, is generated from the GeoPackage
+to visually confirm that the spatial patterns are plausible and that there are
+no obvious artefacts from clipping or resampling.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.55\textwidth]{images/Soil/ph_water_distribution.png}
+    \caption{Spatial distribution of topsoil pH (water) over the AOI at $0.1^{\circ}$ resolution.}
+    \label{fig:soil_ph_water_map}
+\end{figure}
+
+\subsection{Summary}
+
+In summary, the soil extraction process does not compute new properties from
+the raster itself. Instead, it uses the raster pixel values as mapping-unit
+identifiers, aggregates them to a regular $0.1^{\circ}$ grid via a mode
+resampler, and then uses these identifiers as foreign keys to query the HWSD2
+database for topsoil (D1) attributes. The result is a spatially consistent,
+GIS-ready and ML-ready dataset of soil properties for each $0.1^{\circ}$ cell in
+the Algeria--Tunisia AOI.
