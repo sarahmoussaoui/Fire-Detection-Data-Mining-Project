@@ -1,20 +1,142 @@
 \section{Random Forest}
 
-The Random Forest (RF) classifier was evaluated using the scikit-learn implementation on the SMOTE, Tomek, and SMOTE-Tomek resampled datasets. Training was performed using default hyperparameters unless specified otherwise, and performance was assessed using validation accuracy and class-specific metrics.
 
-\subsection{Performance Across Resampling Strategies}
+\subsection{Random Forest -- From Scratch Implementation}
+
+Before relying on the \texttt{scikit-learn} implementation, a complete
+\textbf{Random Forest classifier was implemented from scratch} in order to
+better understand the internal mechanisms of ensemble learning and to analyze
+the impact of different resampling strategies on an imbalanced dataset.
+
+The evaluation was conducted on \textbf{10 resampled datasets}, using fixed
+hyperparameters to ensure a fair comparison between resampling methods.
+
+\subsubsection{Experimental Setup}
+
+The following parameters were fixed for all experiments:
+
+\begin{itemize}
+    \item Number of trees (\texttt{n\_estimators}): 100
+    \item Maximum tree depth (\texttt{max\_depth}): 10
+    \item Minimum samples split: 2
+    \item Minimum samples per leaf: 1
+    \item Feature selection: all features
+    \item Bootstrap sampling enabled
+\end{itemize}
+
+The test set contains \textbf{3477 samples}, with a highly imbalanced class
+distribution:
+\[
+\text{Class 0: } 3275 \quad\quad \text{Class 1: } 202
+\]
+
+To address this imbalance, three resampling strategies were evaluated:
+\begin{itemize}
+    \item SMOTE
+    \item Tomek Links
+    \item SMOTE + Tomek Links
+\end{itemize}
+
+\subsubsection{Performance Comparison of Resampling Methods}
+
+The table below summarizes the performance of the
+from-scratch Random Forest on the test set.
 
 \begin{table}[H]
 \centering
-\caption{Scikit-Learn Random Forest Performance Across Resampling Strategies}
-\begin{tabular}{|l|c|c|c|c|c|c|c|}
-\hline
-\textbf{Resampling} & \textbf{Training Time (s)} & \textbf{Training Acc.} & \textbf{Validation Acc.} & \textbf{Class 0 Precision} & \textbf{Class 0 Recall} & \textbf{Class 1 Precision} & \textbf{Class 1 Recall} \\ \hline
-SMOTE & 4.61 & 0.9599 & 0.9008 & 0.98 & 0.91 & 0.33 & 0.68 \\ \hline
-Tomek & 1.29 & 0.9745 & 0.9471 & 0.96 & 0.98 & 0.57 & 0.36 \\ \hline
-SMOTE-Tomek & 4.11 & 0.9614 & 0.8973 & 0.98 & 0.91 & 0.31 & 0.66 \\ \hline
+\caption{Random Forest (From Scratch) -- Test Performance Comparison}
+\label{tab:rf_scratch_comparison}
+\begin{tabular}{lccccc}
+\toprule
+\textbf{Method} & \textbf{Accuracy} & \textbf{Precision} & \textbf{Recall} & \textbf{F1-Score} & \textbf{Time (s)} \\
+\midrule
+SMOTE & 0.8896 & 0.9447 & 0.8896 & 0.9099 & 5315.15 \\
+Tomek Links & \textbf{0.9517} & 0.9439 & \textbf{0.9517} & \textbf{0.9455} & \textbf{2283.09} \\
+SMOTE + Tomek Links & 0.8916 & 0.9432 & 0.8916 & 0.9109 & 4948.44 \\
+\bottomrule
 \end{tabular}
 \end{table}
+
+\subsubsection{Graphical Analysis}
+
+\paragraph{Metric Comparison Plot}
+The figure below illustrates the comparison of the
+main evaluation metrics across the three resampling strategies. Tomek Links
+consistently achieves the highest overall performance, particularly in terms
+of accuracy and F1-score.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{images/RF/from_scratch/comparison_plot_20251225_122157.png}
+    \caption{Random Forest (From Scratch) -- Comparison of Resampling Methods}
+    \label{fig:rf_scratch_comparison_plot}
+\end{figure}
+
+\paragraph{Radar Chart Analysis}
+The radar chart below provides a holistic view of
+the trade-offs between precision, recall, F1-score, accuracy, and computational
+cost. Tomek Links demonstrates the best balance between predictive performance
+and training time.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{images/RF/from_scratch/radar_chart_20251225_122157.png}
+    \caption{Random Forest (From Scratch) -- Radar Chart Comparison}
+    \label{fig:rf_scratch_radar}
+\end{figure}
+
+\subsubsection{Overfitting Analysis}
+
+The gap between training and test performance was analyzed to assess
+overfitting. Tomek Links exhibits the smallest generalization gap
+(\textbf{Accuracy gap = 0.0185}, \textbf{F1 gap = 0.0205}), indicating excellent
+generalization compared to SMOTE-based approaches, which show mild
+overfitting.
+
+\subsubsection{Conclusion}
+
+Based on both quantitative metrics and graphical analysis, \textbf{Tomek Links}
+emerges as the most effective resampling strategy for the from-scratch Random
+Forest implementation. It achieves the highest F1-score and accuracy while
+maintaining the lowest training time and minimal overfitting.
+
+These results provide a strong baseline for comparison with the
+\texttt{scikit-learn} Random Forest implementation, which is presented in the
+following section.
+
+%%%%%%%%%%%%%%%%%
+\subsection{Scikit-learn Implementation}
+The Random Forest (RF) classifier was evaluated using the scikit-learn implementation on the SMOTE, Tomek, and SMOTE-Tomek resampled datasets. Training was performed using default hyperparameters unless specified otherwise, and performance was assessed using validation accuracy and class-specific metrics.
+
+\subsubsection{Performance Across Resampling Strategies}
+
+\begin{table}[H]
+\centering
+\caption{Scikit-Learn Random Forest Global Performance Across Resampling Strategies}
+% \label{tab:rf_global_performance}
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+\textbf{Resampling} & \textbf{Training Time (s)} & \textbf{Training Acc.} & \textbf{Validation Acc.} \\ \hline
+SMOTE & 4.61 & 0.9599 & 0.9008 \\ \hline
+Tomek & 1.29 & 0.9745 & 0.9471 \\ \hline
+SMOTE-Tomek & 4.11 & 0.9614 & 0.8973 \\ \hline
+\end{tabular}
+\end{table}
+
+
+\begin{table}[H]
+\centering
+\caption{Scikit-Learn Random Forest Class-wise Precision and Recall}
+% \label{tab:rf_precision_recall}
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+\textbf{Resampling} & \textbf{Class 0 Precision} & \textbf{Class 0 Recall} & \textbf{Class 1 Precision} & \textbf{Class 1 Recall} \\ \hline
+SMOTE & 0.98 & 0.91 & 0.33 & 0.68 \\ \hline
+Tomek & 0.96 & 0.98 & 0.57 & 0.36 \\ \hline
+SMOTE-Tomek & 0.98 & 0.91 & 0.31 & 0.66 \\ \hline
+\end{tabular}
+\end{table}
+
 
 \subsection{Bayesian Optimization for Random Forest}
 

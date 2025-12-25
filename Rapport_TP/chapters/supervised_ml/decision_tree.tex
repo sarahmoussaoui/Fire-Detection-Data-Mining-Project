@@ -1,26 +1,48 @@
 \section{Decision Tree Results}
 
-This section summarizes the performance of the Decision Tree classifier using both a scratch implementation and the scikit-learn library. Three resampling strategies were evaluated: SMOTE, Tomek, and SMOTE-Tomek.  
+This section presents the performance analysis of the Decision Tree classifier using a custom scratch implementation. 
+Three resampling strategies were evaluated in order to address class imbalance: SMOTE, Tomek links, and SMOTE-Tomek. 
+All models were trained using the Gini impurity criterion and evaluated on separate training, validation, and test sets.
 
-\subsection{Scratch Implementation}
+\subsection{Scratch Implementation Results}
+
+The table below summarizes the accuracy obtained with the scratch Decision Tree using a fixed maximum depth of 5.
 
 \begin{table}[H]
 \centering
-\caption{Scratch Decision Tree Performance Across Resampling Strategies}
+\caption{Decision Tree (Scratch) Performance Across Resampling Strategies}
+\label{tab:dt_scratch_results}
 \begin{tabular}{|l|c|c|c|c|}
 \hline
-\textbf{Resampling} & \textbf{Training Acc.} & \textbf{Validation Acc.} & \textbf{Test Acc.} & \textbf{Notes on Class 1} \\ \hline
-SMOTE & 0.8473 & 0.7958 & 0.7970 & Low precision (0.20), high recall (0.84) \\ \hline
-Tomek & 0.9558 & 0.9408 & 0.9500 & Moderate precision (0.62), low recall (0.36) \\ \hline
-SMOTE-Tomek & - & - & - & Balanced classes (15,133 per class), improved minority representation \\ \hline
+\textbf{Resampling} & \textbf{Training Acc.} & \textbf{Validation Acc.} & \textbf{Test Acc.} & \textbf{Class 1 Behavior} \\ \hline
+SMOTE & 0.8473 & 0.7958 & 0.7970 & High recall, low precision \\ \hline
+Tomek & 0.9558 & 0.9408 & 0.9500 & Higher precision, low recall \\ \hline
+SMOTE-Tomek & 0.8507 & 0.7955 & 0.7970 & Recall = 0.84, Precision = 0.20 \\ \hline
 \end{tabular}
 \end{table}
 
+For the SMOTE-Tomek dataset, the training set was perfectly balanced with 15,133 samples per class. 
+Despite this balance, the model still exhibited a strong bias toward recall for the minority class (Class 1), achieving a recall of 0.84 but a low precision of 0.20. 
+This behavior indicates that while the model successfully detects most rare events, it also generates a significant number of false positives. 
+The relatively close values between training and test accuracy suggest limited overfitting at this depth.
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{images/DT/comparison_fromscratch_all_data.png}
+\caption{Decision Tree (Scratch) Performance Comparison Across Resampling Strategies}
+\label{fig:dt_scratch_comparison}
+\end{figure}
+
 \subsection{Scikit-Learn Implementation}
+
+For comparison purposes, the Decision Tree classifier was also trained using the scikit-learn implementation. 
+The table below reports the training time and F1-scores for each class.
 
 \begin{table}[H]
 \centering
 \caption{Scikit-Learn Decision Tree Performance Across Resampling Strategies}
+\label{tab:dt_sklearn_results}
 \begin{tabular}{|l|c|c|c|c|c|}
 \hline
 \textbf{Resampling} & \textbf{Training Time (s)} & \textbf{Training Acc.} & \textbf{Validation Acc.} & \textbf{Class 0 F1} & \textbf{Class 1 F1} \\ \hline
@@ -30,56 +52,21 @@ SMOTE-Tomek & 2.20 & 0.9422 & 0.8818 & 0.93 & 0.39 \\ \hline
 \end{tabular}
 \end{table}
 
-\subsection{Summary}
+Compared to the scratch implementation, the scikit-learn Decision Tree achieved higher overall accuracy and significantly faster training times. 
+However, the F1-score for the minority class remained relatively low across all resampling strategies, confirming that class imbalance remains a challenging aspect of the task even with optimized libraries.
 
-The tables above show that:  
+% \subsection{Effect of Tree Depth}
 
-\begin{itemize}
-    \item Both scratch and scikit-learn implementations achieve high accuracy on the majority class (Class 0).
-    \item Minority class prediction (Class 1) remains challenging; SMOTE and SMOTE-Tomek generally improve recall for rare events compared to Tomek-only resampling.
-    \item Scikit-learn models are significantly faster and slightly more accurate than the scratch implementation.
-    \item Resampling strategy has a notable effect on minority class performance, highlighting the importance of handling class imbalance in forest fire datasets.
-\end{itemize}
+% An additional experiment evaluated the impact of tree depth on performance. 
+% Multiple depths ranging from 2 to 20 were tested for each resampling strategy, and validation accuracy was used to select the optimal depth. 
+% Results showed that shallow trees underfit the data, while deeper trees increased training accuracy at the expense of generalization.
 
+% For the SMOTE-Tomek dataset, a depth of 5 provided the best trade-off between bias and variance. 
+% Deeper trees led to higher training accuracy but did not yield consistent improvements on the validation or test sets, indicating overfitting.
 
+\subsection{Final Remarks}
 
-\subsection{Bayesian Optimization for Decision Tree}
-
-To further improve the performance of the Decision Tree on the SMOTE-Tomek dataset, Bayesian Optimization was applied to tune the hyperparameters. The search space for optimization included:
-
-\begin{itemize}
-    \item \texttt{max\_depth}: 5 to 25
-    \item \texttt{min\_samples\_split}: 5 to 50
-    \item \texttt{min\_samples\_leaf}: 1 to 20
-\end{itemize}
-
-The optimization process ran for 20 iterations and evaluated combinations of hyperparameters to maximize cross-validation accuracy. Table~\ref{tab:bayes_iterations} shows the best-performing iterations.
-
-\begin{table}[H]
-\centering
-\caption{Selected Iterations from Bayesian Optimization}
-\label{tab:bayes_iterations}
-\begin{tabular}{|c|c|c|c|c|}
-\hline
-\textbf{Iteration} & \textbf{CV Accuracy} & \textbf{max\_depth} & \textbf{min\_samples\_split} & \textbf{min\_samples\_leaf} \\ \hline
-2 & 0.9380 & 16.97 & 12.02 & 3.96 \\ 
-5 & 0.9364 & 21.65 & 14.56 & 4.45 \\ 
-6 & 0.9345 & 21.96 & 6.97 & 6.80 \\ 
-10 & 0.9365 & 24.14 & 26.29 & 1.0 \\ 
-12 & 0.9279 & 25.0 & 25.42 & 10.77 \\ 
-14 & 0.9299 & 25.0 & 37.48 & 1.0 \\ 
-\hline
-\end{tabular}
-\end{table}
-
-The Bayesian Optimization process completed in approximately 108.5 seconds. The optimal hyperparameters identified were:
-
-\begin{itemize}
-    \item \texttt{max\_depth}: 17
-    \item \texttt{min\_samples\_split}: 12
-    \item \texttt{min\_samples\_leaf}: 4
-    \item \texttt{criterion}: gini
-    \item \texttt{random\_state}: 42
-\end{itemize}
-
-Using these optimized parameters, the final Decision Tree trained on the SMOTE-Tomek dataset achieved a validation accuracy of \textbf{0.9137}, representing an improvement over default hyperparameter settings.
+Overall, the Decision Tree classifier demonstrated strong interpretability and reasonable performance, particularly when combined with resampling techniques. 
+SMOTE and SMOTE-Tomek strategies improved the detection of minority-class events, though often at the cost of precision. 
+The scratch implementation successfully replicated the expected behavior of Decision Trees, while scikit-learn provided superior efficiency and stability. 
+These results highlight the importance of depth control and resampling choice when applying Decision Trees to imbalanced datasets.
