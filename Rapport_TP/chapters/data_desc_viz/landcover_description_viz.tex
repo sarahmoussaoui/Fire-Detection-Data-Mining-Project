@@ -1,5 +1,3 @@
-Following the initial data integration, this section performs a detailed Exploratory Data Analysis (EDA) on the merged Land Cover dataset (\texttt{landcover\_combined.geojson}) to assess its structure, identify redundant features, and prepare the complex classification codes for modeling.
-
 \subsection{Data Structure and Integrity}
 
 The merged Land Cover GeoDataFrame (\texttt{landcover\_gdf}) was loaded and inspected for structural consistency.
@@ -7,7 +5,7 @@ The merged Land Cover GeoDataFrame (\texttt{landcover\_gdf}) was loaded and insp
 \begin{itemize}
     \item \textbf{Data Counts:} The total number of unique features and the distinct values for the primary classification columns—$\texttt{lcccode}$ (Land Cover Classification Code) and $\texttt{gridcode}$—were tallied.
     \item \textbf{Redundancy Check:} An inspection for rows with duplicated $\texttt{id}$ values was performed. Although duplicates were found, the difference in associated geometry or attributes suggested they were not true feature duplicates, and the $\texttt{id}$ column was deemed non-essential for the model and slated for removal.
-    \item \textbf{Missing Values:} A check across all columns confirmed the absence of any null or NaN values, indicating a complete and clean dataset structure following the initial GeoJSON conversion.
+    \item \textbf{Missing Values:} A check across all columns confirmed the absence of any null/NAN values, indicating completeness.
 \end{itemize}
 
 \textbf{Relationship between Classification Codes}
@@ -35,7 +33,7 @@ The distribution of land cover types was visualized to understand the regional c
 \end{figure}
 
     % \item \textbf{Proportional Distribution:} A pie chart displayed the percentage distribution of each unique $\texttt{lcccode}$.
-    \item \textbf{Area Analysis:} The geometric area of each polygon was calculated \\ ($\texttt{landcover\_gdf['area'] = \ldots geometry.area}$). A bar plot was generated showing the Total Area by Land Cover Code.
+    \item \textbf{Area Analysis:} The geometric area of each polygon was calculated. A bar plot was generated showing the Total Area by Land Cover Code.
 
 
     \begin{figure} [H]
@@ -45,8 +43,7 @@ The distribution of land cover types was visualized to understand the regional c
         \label{fig:lcccode_area}
     \end{figure}
 \end{itemize}
-
- 
+In the land cover plot, the classes coded as \textbf{6004}, \textbf{6001}, and \textbf{0011}, which correspond to \textbf{bare land}, occupy the largest proportion of the study area.
 
 % \subsection{Classification Code Harmonization}
 

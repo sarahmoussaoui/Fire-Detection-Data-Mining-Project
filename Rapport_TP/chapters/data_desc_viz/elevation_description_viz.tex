@@ -1,4 +1,4 @@
-This section details the analysis and statistical exploration of the extracted \textbf{Elevation Dataset} for the combined region of Algeria and Tunisia. The dataset, previously clipped and saved as a GeoTIFF (\texttt{elevation\_dz\_tn.tif}), is examined for data integrity, statistical properties, and spatial distribution.
+This section details the analysis and statistical exploration of the extracted \textbf{Elevation Dataset} for the combined region of Algeria and Tunisia. The dataset is examined for data integrity, statistical properties, and spatial distribution.
 
 \subsection{Data Loading and Integrity Check}
 
@@ -9,26 +9,17 @@ The analysis begins by loading the processed raster file using \texttt{rasterio}
 \end{itemize}
 
 
-\subsection{Raster Summary and Descriptive Statistics}
+\subsection{Descriptive Statistics and Visualisation}
 
-Key metadata and descriptive statistics were extracted directly from the raster source.
-
-\begin{itemize}
-    \item \textbf{Metadata:} Essential properties such as the number of bands ($\texttt{count}$), dimensions ($\texttt{width}$, $\texttt{height}$), Coordinate Reference System ($\texttt{crs}$), and geographical $\texttt{bounds}$ were retrieved to confirm the raster's structure.
-    
-    \item \textbf{Central Tendency:} Core statistics were computed on the valid elevation pixels using \texttt{numpy} to characterize the overall terrain:
+Core statistics were computed on the valid elevation pixels to characterize the overall terrain:
     
     \begin{itemize}
         \item Mean Elevation: 538.327
         \item Median Elevation: 464.0
         \item Mode Elevation: 301
     \end{itemize}
-    
-  
-\end{itemize}
 
-\subsection{Elevation Visualization}
-The \textbf{Elevation Dataset}  was visualized using \texttt{matplotlib} and \texttt{rasterio.plot} to create a professional elevation map. The map utilizes a color scale to intuitively display elevation in meters.
+The \textbf{Elevation Dataset}  was visualized to create a professional elevation map. The map utilizes a color scale to intuitively display elevation in meters.
  
 \begin{figure}[H]
     \centering
@@ -51,8 +42,7 @@ The distribution of all valid elevation values was analyzed to understand the re
 \end{figure}
 
 \textbf{Histogram Interpretation}
-The elevation histogram displays a clear \textbf{left-skewed distribution}. This pattern suggests that while the terrain includes low-lying coastal and steppe regions (the left tail), the majority of the area is concentrated in the mid-to-high elevation ranges, corresponding to the Saharan plateaus and inland mountain ranges.
-
+The elevation histogram exhibits a \textbf{left-skewed distribution}. This indicates that low-elevation areas dominate the region, while higher elevations occur less frequently, forming a long left tail. The majority of the terrain is therefore concentrated in low to mid-elevation ranges, corresponding to coastal plains and steppe regions, with higher elevations associated with inland mountain ranges.
 \begin{figure}[H]
     \centering
     % Placeholder for the Elevation Boxplot

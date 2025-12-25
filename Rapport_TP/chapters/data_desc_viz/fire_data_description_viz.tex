@@ -1,13 +1,14 @@
-This section details the initial loading, cleaning, and exploratory data analysis (EDA) performed on the raw fire datasets for Algeria and Tunisia, culminating in several key visualizations of the combined data.
+% \subsection{Data Loading and Inspection}
+% The analysis began by loading the separate VIIRS (Visible Infrared Imaging Radiometer Suite) fire detection files for Algeria (\texttt{df\_fire\_dza}) and Tunisia (\texttt{df\_fire\_tun}).
 
+% \begin{itemize}
+%     \item \textbf{Initial Check:} Descriptive statistics \texttt{(describe())} were computed to understand the distribution, range, and central tendencies of numerical features like \texttt{frp} and brightness temperatures.
+%     \item \textbf{Data Quality:} Inspection of data types, memory usage, and the percentage of missing values (\texttt{isnull().mean()}) confirmed data integrity and structure consistency across both datasets.
+%     \item \textbf{Data Integration:} The two datasets were merged into a single GeoDataFrame, \texttt{df\_fire}, using the \texttt{pd.concat()} function, ready for combined regional analysis.
+% \end{itemize}
 \subsection{Data Loading and Inspection}
-The analysis began by loading the separate VIIRS (Visible Infrared Imaging Radiometer Suite) fire detection files for Algeria (\texttt{df\_fire\_dza}) and Tunisia (\texttt{df\_fire\_tun}).
 
-\begin{itemize}
-    \item \textbf{Initial Check:} Descriptive statistics \texttt{(describe())} were computed to understand the distribution, range, and central tendencies of numerical features like \texttt{frp} and brightness temperatures.
-    \item \textbf{Data Quality:} Inspection of data types, memory usage, and the percentage of missing values (\texttt{isnull().mean()}) confirmed data integrity and structure consistency across both datasets.
-    \item \textbf{Data Integration:} The two datasets were merged into a single GeoDataFrame, \texttt{df\_fire}, using the \texttt{pd.concat()} function, ready for combined regional analysis.
-\end{itemize}
+The analysis began by loading the datasets for Algeria (\texttt{df\_fire\_dza}) and Tunisia (\texttt{df\_fire\_tun}). An initial exploratory inspection was performed using descriptive statistics to assess the distribution and range of key numerical variables, including fire radiative power (\texttt{frp}) and brightness temperatures. Data quality was verified by examining data types, memory usage, and the proportion of missing values, confirming structural consistency and integrity across both datasets. Finally, the two datasets were merged using \texttt{pd.concat()} into a single GeoDataFrame (\texttt{df\_fire}), enabling unified regional analysis.
 
 \subsection{Variable Definitions and Geospatial Metrics}
 
@@ -38,6 +39,7 @@ Understanding the physical meaning of the VIIRS variables is critical for interp
 \end{figure}
 
 The geospatial distribution of fire events was visualized using a scatter plot of \texttt{longitude} vs.\ \texttt{latitude}, with the color intensity mapped to \texttt{frp}. This visualization is essential for identifying fire clusters and high-intensity regions across the combined study area.
+As shown in the map, the majority of fire points are concentrated in the northern regions, reflecting higher vegetation density and more favorable climatic conditions for fire occurrence compared to the arid southern areas
 
 \paragraph{Feature Distribution and Correlation}
 
@@ -47,7 +49,7 @@ The geospatial distribution of fire events was visualized using a scatter plot o
     \caption{Histograms illustrating the distribution of key numerical variables (\texttt{latitude}, \texttt{longitude}, \texttt{bright\_ti4}, \texttt{frp}, \texttt{scan}, \texttt{track}, \texttt{bright\_ti5}) in the merged fire dataset.}\label{fig:histograms}
 \end{figure}
 
-The distributions of the numerical columns were visualized using histograms, revealing a heavily left-skewed distribution for intensity variable \texttt{frp}, indicating that most fire detections are of low power, with few extreme events.
+The distributions of the numerical columns were visualized using histograms, revealing a heavily left-skewed distribution for intensity variable \texttt{frp}, indicating that most fire detections are of low power with few extreme events, which confirms what has been shown in the previous scatter plot frp map.
 
 \begin{figure}[H]
     \centering

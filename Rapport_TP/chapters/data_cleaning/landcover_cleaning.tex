@@ -2,7 +2,7 @@
 
 \subsection{Classification Code Harmonization}
 
-The raw $\texttt{lcccode}$ column contains complex codes (e.g., \texttt{7001 // 8001}) which represent mixed, uncertain, or transitional land cover types. The separator (\texttt{//}) indicates a mixture between the two classes (e.g., Shrubland and Bare/Sparse vegetation). To handle this complexity for machine learning, the following steps were taken:
+The raw $\texttt{lcccode}$ column contains complex codes (e.g., \texttt{7001 // 8001}) which represent mixed, uncertain, or transitional land cover types. The separator (\texttt{//}) indicates a mixture between the two classes. To handle this complexity for machine learning, the following steps were taken:
 
 \textbf{Legend Integration}
 The official legend files (\texttt{globcover\_LCCS\_legend\_africa.xls} and \texttt{globcover\_legend.xls}) were loaded to establish a mapping between the numeric codes and descriptive labels.
@@ -14,8 +14,6 @@ The official legend files (\texttt{globcover\_LCCS\_legend\_africa.xls} and \tex
 
 \textbf{High-Level Mapping}
 Given the 22 unique $\texttt{lcccode}$ values in the dataset, a high-level, simplified mapping was created to aggregate these codes into fundamental categories (e.g., ``Forests,'' ``Bare lands,'' ``Croplands,'' ``Vegetation,'' etc.). 
-This step is crucial for reducing the complexity of the model's fire prediction.
-
 For instance:
 \begin{itemize}
     \item Multiple codes corresponding to water-related classes (e.g., 7001, 8001) were grouped as ``Water bodies''.
@@ -32,10 +30,10 @@ This high-level categorization reduces the number of classes and improves model 
         \textbf{lcccode} & \textbf{lcc\_highlevel} \\
         \midrule
         7001 // 8001      & Water bodies \\
-        7001 // 8001      & Water bodies \\
-        7001 // 8001      & Water bodies \\
+        0011      & Bare Lands \\
+        11498     & Croplands \\
         21497-121340      & Forests \\
-        7001 // 8001      & Water bodies \\
+        11490 // 11494      & Croplands \\
         \bottomrule
     \end{tabular}
 \end{table}

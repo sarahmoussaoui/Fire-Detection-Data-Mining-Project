@@ -3,8 +3,7 @@
 
 \subsection{Random Forest -- From Scratch Implementation}
 
-Before relying on the \texttt{scikit-learn} implementation, a complete
-\textbf{Random Forest classifier was implemented from scratch} in order to
+A \textbf{Random Forest classifier was implemented from scratch} in order to
 better understand the internal mechanisms of ensemble learning and to analyze
 the impact of different resampling strategies on an imbalanced dataset.
 
@@ -13,29 +12,20 @@ hyperparameters to ensure a fair comparison between resampling methods.
 
 \subsubsection{Experimental Setup}
 
-The following parameters were fixed for all experiments:
+All experiments were conducted using fixed hyperparameters: \texttt{n\_estimators}=100, \texttt{max\_depth}=10, \texttt{min\_samples\_split}=2, \texttt{min\_samples\_leaf}=1, bootstrap sampling enabled, and all features considered at each split.
 
-\begin{itemize}
-    \item Number of trees (\texttt{n\_estimators}): 100
-    \item Maximum tree depth (\texttt{max\_depth}): 10
-    \item Minimum samples split: 2
-    \item Minimum samples per leaf: 1
-    \item Feature selection: all features
-    \item Bootstrap sampling enabled
-\end{itemize}
+% The test set contains \textbf{3477 samples}, with a highly imbalanced class
+% distribution:
+% \[
+% \text{Class 0: } 3275 \quad\quad \text{Class 1: } 202
+% \]
 
-The test set contains \textbf{3477 samples}, with a highly imbalanced class
-distribution:
-\[
-\text{Class 0: } 3275 \quad\quad \text{Class 1: } 202
-\]
-
-To address this imbalance, three resampling strategies were evaluated:
-\begin{itemize}
-    \item SMOTE
-    \item Tomek Links
-    \item SMOTE + Tomek Links
-\end{itemize}
+% To address this imbalance, three resampling strategies were evaluated:
+% \begin{itemize}
+%     \item SMOTE
+%     \item Tomek Links
+%     \item SMOTE + Tomek Links
+% \end{itemize}
 
 \subsubsection{Performance Comparison of Resampling Methods}
 
@@ -57,6 +47,7 @@ SMOTE + Tomek Links & 0.8916 & 0.9432 & 0.8916 & 0.9109 & 4948.44 \\
 \end{tabular}
 \end{table}
 
+
 \subsubsection{Graphical Analysis}
 
 \paragraph{Metric Comparison Plot}
@@ -67,22 +58,9 @@ of accuracy and F1-score.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{images/RF/from_scratch/comparison_plot_20251225_122157.png}
+    \includegraphics[width=0.7\textwidth]{images/RF/from_scratch/comparison_plot_20251225_122157.png}
     \caption{Random Forest (From Scratch) -- Comparison of Resampling Methods}
     \label{fig:rf_scratch_comparison_plot}
-\end{figure}
-
-\paragraph{Radar Chart Analysis}
-The radar chart below provides a holistic view of
-the trade-offs between precision, recall, F1-score, accuracy, and computational
-cost. Tomek Links demonstrates the best balance between predictive performance
-and training time.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.75\textwidth]{images/RF/from_scratch/radar_chart_20251225_122157.png}
-    \caption{Random Forest (From Scratch) -- Radar Chart Comparison}
-    \label{fig:rf_scratch_radar}
 \end{figure}
 
 \subsubsection{Overfitting Analysis}
@@ -93,20 +71,36 @@ overfitting. Tomek Links exhibits the smallest generalization gap
 generalization compared to SMOTE-based approaches, which show mild
 overfitting.
 
-\subsubsection{Conclusion}
+\paragraph{Radar Chart Analysis}
+The radar chart below provides a holistic view of
+the trade-offs between precision, recall, F1-score, accuracy, and computational
+cost. Tomek Links demonstrates the best balance between predictive performance
+and training time (biggest and roundest polygon).
 
-Based on both quantitative metrics and graphical analysis, \textbf{Tomek Links}
-emerges as the most effective resampling strategy for the from-scratch Random
-Forest implementation. It achieves the highest F1-score and accuracy while
-maintaining the lowest training time and minimal overfitting.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{images/RF/from_scratch/radar_chart_20251225_122157.png}
+    \caption{Random Forest (From Scratch) -- Radar Chart Comparison}
+    \label{fig:rf_scratch_radar}
+\end{figure}
 
-These results provide a strong baseline for comparison with the
-\texttt{scikit-learn} Random Forest implementation, which is presented in the
-following section.
+
+
+
+% \subsubsection{Conclusion}
+
+% Based on both quantitative metrics and graphical analysis, \textbf{Tomek Links}
+% emerges as the most effective resampling strategy for the from-scratch Random
+% Forest implementation. It achieves the highest F1-score and accuracy while
+% maintaining the lowest training time and minimal overfitting.
+
+% These results provide a strong baseline for comparison with the
+% \texttt{scikit-learn} Random Forest implementation, which is presented in the
+% following section.
 
 %%%%%%%%%%%%%%%%%
 \subsection{Scikit-learn Implementation}
-The Random Forest (RF) classifier was evaluated using the scikit-learn implementation on the SMOTE, Tomek, and SMOTE-Tomek resampled datasets. Training was performed using default hyperparameters unless specified otherwise, and performance was assessed using validation accuracy and class-specific metrics.
+Training was performed using default hyperparameters unless specified otherwise, and performance was assessed using validation accuracy and class-specific metrics.
 
 \subsubsection{Performance Across Resampling Strategies}
 
@@ -136,17 +130,11 @@ Tomek & 0.96 & 0.98 & 0.57 & 0.36 \\ \hline
 SMOTE-Tomek & 0.98 & 0.91 & 0.31 & 0.66 \\ \hline
 \end{tabular}
 \end{table}
-
+Similar to the from-scratch implementation, Tomek Links outperformed other resampling methods, achieving the highest validation accuracy (0.9471) and strong class-wise metrics.
 
 \subsection{Bayesian Optimization for Random Forest}
 
-Bayesian Optimization was applied to tune hyperparameters of the Random Forest classifier on the SMOTE-Tomek dataset. The search space included:
-
-\begin{itemize}
-    \item \texttt{n\_estimators}: 50 to 200
-    \item \texttt{max\_depth}: 5 to 25
-    \item \texttt{max\_features}: 0.1 to 0.9
-\end{itemize}
+Bayesian Optimization was used to tune Random Forest hyperparameters on the SMOTE-Tomek dataset. The search space included \texttt{n\_estimators} (50–200), \texttt{max\_depth} (5–25), and \texttt{max\_features} (0.1–0.9).
 
 \begin{table}[H]
 \centering
@@ -164,15 +152,7 @@ Bayesian Optimization was applied to tune hyperparameters of the Random Forest c
 \end{tabular}
 \end{table}
 
-The Bayesian Optimization completed in approximately 419 seconds. The optimal hyperparameters identified were:
-
-\begin{itemize}
-    \item \texttt{n\_estimators}: 159
-    \item \texttt{max\_depth}: 25
-    \item \texttt{max\_features}: 0.1
-    \item \texttt{random\_state}: 42
-    \item \texttt{n\_jobs}: -1
-\end{itemize}
+Bayesian Optimization completed in approximately 419 seconds. The optimal hyperparameters were \texttt{n\_estimators}=159, \texttt{max\_depth}=25, \texttt{max\_features}=0.1, \texttt{random\_state}=42, and \texttt{n\_jobs}=-1.
 
 \subsection{Discussion}
 

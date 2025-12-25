@@ -2,34 +2,40 @@
 
 The analysis utilizes a \textbf{Digital Elevation Model (DEM)} derived from an \textbf{ESRI GRID (ArcInfo GRID)} dataset. This format is a widely accepted raster structure for representing surface elevation. The primary objective of this processing stage was to efficiently extract, or \textbf{clip}, the relevant elevation data corresponding precisely to the merged geopolitical boundaries of Algeria and Tunisia.
 
+\subsection{Data Preparation and Raster Clipping Workflow}
 
-\subsection{Retrieval and Environment Setup}
+The preprocessing workflow began with the configuration of environment variables to manage dataset paths and ensure portability across processing stages. The geographical area of interest (AOI) was defined by loading merged country boundaries from a GeoPackage file (\texttt{aoi\_dza\_tun.gpkg}) into a \texttt{GeoDataFrame} using \texttt{geopandas}. In parallel, the source elevation raster was loaded from the \texttt{be15\_grd} directory using \texttt{rasterio}, allowing access to its spatial metadata, including the native Coordinate Reference System (CRS).
 
-The workflow was implemented in Python using key geospatial libraries: \texttt{geopandas} for vector data handling, \texttt{rasterio} for raster manipulation, and \texttt{matplotlib} for visualization.
+To enable accurate spatial operations, the vector boundaries were reprojected to match the raster’s CRS. This alignment step is essential, as raster masking requires both datasets to share the same spatial reference. Once the coordinate systems were unified, the elevation raster was clipped using the AOI geometries through the \texttt{rasterio.mask.mask()} function, producing a masked elevation array and an updated spatial transformation.
 
-\begin{enumerate}
-    \item \textbf{Configuration:} Environment variables were loaded to manage project file paths, ensuring portability and consistency across processing steps (e.g., paths to \texttt{ElevationDataset}, \texttt{GeoBoundaries}, and output folders).
-    \item \textbf{Loading Vector Boundaries:} The combined geographical area of interest (AOI) was defined by loading the merged country boundaries from a GeoPackage file (\texttt{aoi\_dza\_tun.gpkg}) into a \texttt{geopandas} \textbf{GeoDataFrame}.
-    \item \textbf{Loading Raster Data:} The source elevation raster, located in the \texttt{be15\_grd} folder, was opened using \texttt{rasterio.open()}, which provides access to the raster's properties, including its inherent \textbf{Coordinate Reference System (CRS)}.
-\end{enumerate}
+Finally, the original raster metadata was updated to reflect the new dimensions and georeferencing parameters of the clipped dataset. The output format was explicitly set to \texttt{GeoTIFF} to ensure write compatibility and standardization. The resulting digital elevation model was saved as \texttt{elevation\_dz\_tn.tif}, constituting the final processed dataset ready for subsequent topographical or hydrological analyses.
 
-\subsection{Coordinate System Alignment (Reprojection)}
+% \subsection{Retrieval and Environment Setup}
 
-A crucial preparatory step was the alignment of the spatial data. Spatial operations, such as clipping, require both the vector (boundaries) and the raster (elevation) data to share an identical CRS.
 
-\begin{itemize}
-    \item The native CRS of the elevation raster was determined (\texttt{src.crs}).
-    \item The country boundary GeoDataFrame was then \textbf{reprojected} to match the raster's CRS using the \texttt{countries.to\_crs(src.crs)} method. This guarantees precise spatial overlap for the masking procedure. 
-\end{itemize}
+% \begin{enumerate}
+%     \item \textbf{Configuration:} Environment variables were loaded to manage project file paths, ensuring portability and consistency across processing steps (e.g., paths to \texttt{ElevationDataset}, \texttt{GeoBoundaries}, and output folders).
+%     \item \textbf{Loading Vector Boundaries:} The combined geographical area of interest (AOI) was defined by loading the merged country boundaries from a GeoPackage file (\texttt{aoi\_dza\_tun.gpkg}) into a \texttt{geopandas} \textbf{GeoDataFrame}.
+%     \item \textbf{Loading Raster Data:} The source elevation raster, located in the \texttt{be15\_grd} folder, was opened using \texttt{rasterio.open()}, which provides access to the raster's properties, including its inherent \textbf{Coordinate Reference System (CRS)}.
+% \end{enumerate}
+
+% \subsection{Coordinate System Alignment (Reprojection)}
+
+% A crucial preparatory step was the alignment of the spatial data. Spatial operations, such as clipping, require both the vector (boundaries) and the raster (elevation) data to share an identical CRS.
+
+% \begin{itemize}
+%     \item The native CRS of the elevation raster was determined (\texttt{src.crs}).
+%     \item The country boundary GeoDataFrame was then \textbf{reprojected} to match the raster's CRS using the \texttt{countries.to\_crs(src.crs)} method. This guarantees precise spatial overlap for the masking procedure. 
+% \end{itemize}
 
  
 
-\subsection{Raster Masking and Output Generation}
+% \subsection{Raster Masking and Output Generation}
 
-With the coordinate systems aligned, the elevation data was clipped using the vector boundaries.
+% With the coordinate systems aligned, the elevation data was clipped using the vector boundaries.
 
-\begin{enumerate}
-    \item \textbf{Masking Operation:} The geometries from the GeoDataFrame were used to execute the \textbf{masking} function provided by \texttt{rasterio.mask.mask()}. This process extracts only the pixel values that fall within the specified geopolitical boundaries, yielding the clipped raster array (\texttt{out\_image}) and its associated georeferencing transformation (\texttt{out\_transform}).
-    \item \textbf{Metadata and Saving:} The metadata from the original raster was copied and subsequently updated with the new dimensions and transformation of the clipped image. Critically, the raster \textbf{driver} was set to \texttt{GTiff} (GeoTIFF) to ensure the output file is in a standard, writable format, as the source ESRI GRID format is often read-only.
-    \item \textbf{Final Dataset:} The resulting clipped DEM was saved as a GeoTIFF file: \texttt{elevation\_dz\_tn.tif}. This file constitutes the final, processed elevation dataset ready for subsequent hydrological or topographical analysis. 
-\end{enumerate}
+% \begin{enumerate}
+%     \item \textbf{Masking Operation:} The geometries from the GeoDataFrame were used to execute the \textbf{masking} function provided by \texttt{rasterio.mask.mask()}. This process extracts only the pixel values that fall within the specified geopolitical boundaries, yielding the clipped raster array (\texttt{out\_image}) and its associated georeferencing transformation (\texttt{out\_transform}).
+%     \item \textbf{Metadata and Saving:} The metadata from the original raster was copied and subsequently updated with the new dimensions and transformation of the clipped image. Critically, the raster \textbf{driver} was set to \texttt{GTiff} (GeoTIFF) to ensure the output file is in a standard, writable format, as the source ESRI GRID format is often read-only.
+%     \item \textbf{Final Dataset:} The resulting clipped DEM was saved as a GeoTIFF file: \texttt{elevation\_dz\_tn.tif}. This file constitutes the final, processed elevation dataset ready for subsequent hydrological or topographical analysis. 
+% \end{enumerate}

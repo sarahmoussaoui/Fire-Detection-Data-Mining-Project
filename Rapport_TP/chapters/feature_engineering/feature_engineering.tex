@@ -3,7 +3,7 @@ This chapter describes the feature engineering steps applied to the dataset in o
 
 \section{One-Hot Encoding of Land Cover (High-Level Classes)}
 
-The original land cover codes were first mapped to a reduced set of high-level land cover categories in order to limit semantic fragmentation and ensure consistency across heterogeneous source codes. This mapping resulted in six main land cover classes: \textbf{Artificial surfaces}, \textbf{Bare lands}, \textbf{Water bodies}, \textbf{Vegetation}, \textbf{Croplands}, and \textbf{Forests}.
+The previsous mapping resulted in six main land cover classes: \textbf{Artificial surfaces}, \textbf{Bare lands}, \textbf{Water bodies}, \textbf{Vegetation}, \textbf{Croplands}, and \textbf{Forests}.
 
 Following this consolidation, the high-level land cover attribute was transformed using one-hot encoding. This process generated six binary variables, each corresponding to one of the identified land cover classes. The use of one-hot encoding allows categorical land cover information to be incorporated into the model without imposing any artificial ordinal relationships between categories.
 

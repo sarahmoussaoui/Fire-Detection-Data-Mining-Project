@@ -5,6 +5,9 @@ It extends the ideas of PAM (Partitioning Around Medoids) and introduces randomi
 The algorithm performs multiple local searches, exploring a subset of neighboring medoid configurations to minimize the total dissimilarity (sum of distances from points to their nearest medoid). 
 It is particularly useful for high-dimensional datasets and when the number of clusters is moderate.
 
+
+
+
 \subsection{Datasets and Clustering Execution}
 
 CLARANS was applied to three resampled datasets: SMOTE, Tomek, and SMOTE-Tomek. 
@@ -48,3 +51,34 @@ CLARANS successfully identified distinct clusters in all three datasets.
 - SMOTE-Tomek combined the effects of over- and under-sampling and required the longest duration, but the algorithm still effectively minimized the total cost.
 
 The PCA 2D visualization (Figure~\ref{fig:clarans_pca}) confirms well-separated clusters with medoids clearly marked, providing a useful insight into the internal structure of each cluster.
+
+
+%%
+
+\subsection{From-Scratch Implementation of CLARANS}
+
+To validate the algorithm beyond library implementations, CLARANS was implemented from scratch and applied to the three resampled datasets (SMOTE, Tomek, SMOTE-Tomek). The implementation followed the same parameters: $k=3$ clusters, $numlocal=3$ local searches, and a maximum of 200 neighbors per local search. After convergence, labels were assigned and PCA projection to 2D was performed for visualization.
+
+\begin{table}[H]
+\centering
+\caption{Results of From-Scratch CLARANS Implementation}
+\label{tab:clarans_scratch_results}
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+\textbf{Dataset} & \textbf{Data Shape} & \textbf{Best Cost} & \textbf{Duration (s)} & \textbf{Neighbors Checked} \\ \hline
+SMOTE & (30570, 64) & 12,012,065.96 & 54.72 & 566 \\ \hline
+Tomek & (15911, 64) & 5,342,093.57 & 48.57 & 973 \\ \hline
+SMOTE-Tomek & (30266, 64) & 11,736,406.72 & 74.51 & 934 \\ \hline
+\end{tabular}
+\end{table}
+
+The from-scratch implementation successfully reproduced results comparable to library-based CLARANS. The largest dataset (SMOTE) required more time due to its size, whereas the Tomek dataset, being smaller, converged faster. The combined SMOTE-Tomek dataset required the longest computation, reflecting the increased number of points while maintaining effective cluster separation.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{images/Clarans/clusters_scratch.png}
+\caption{2D PCA Projection of Clusters from the From-Scratch CLARANS Implementation on the SMOTE-Tomek Dataset. Different clusters are color-coded; medoids are marked as red Xs.}
+\label{fig:clarans_scratch_pca}
+\end{figure}
+
+Overall, the from-scratch CLARANS implementation confirmed the algorithm's ability to find low-cost medoid configurations and produce well-separated clusters, with PCA visualizations providing insight into the internal structure of the datasets.
