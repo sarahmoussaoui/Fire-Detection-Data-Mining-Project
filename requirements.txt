@@ -21,3 +21,4 @@ imbalanced-learn
 scikit-learn-extra
 bayesian-optimization
 pyclustering
+scikit-optimize
