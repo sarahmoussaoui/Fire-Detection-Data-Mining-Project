@@ -1,0 +1,57 @@
+\section{Clara K-Medoids Clustering}
+
+\subsection{Tomek dataset}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.95\textwidth]{images/Clarans/predefined/metrics_tomek.png}
+\caption{Clustering Metrics vs. Number of Clusters for TOMEK Dataset. The optimal value of $k=2$ is marked with red stars across all metrics.}
+% \label{fig:clara_metrics_smote}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{images/Clarans/predefined/clusters_tomek.png}
+\caption{CLARA Clustering Visualization for TOMEK Dataset ($k=2$). Left: Predicted clusters with medoids marked as red crosses. Center: True class labels for comparison. Right: Cluster size distribution showing balanced partitioning.}
+% \label{fig:clara_clusters_tomek}
+\end{figure}
+
+\subsection{Smote-Tomek dataset}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.95\textwidth]{images/Clarans/predefined/metrics_smote-tomek.png}
+\caption{Clustering Metrics vs. Number of Clusters for SMOTE-TOMEK Dataset. The optimal value of $k=2$ is marked with red stars across all metrics.}
+% \label{fig:clara_metrics_smote}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{images/Clarans/predefined/clusters_smote-tomek.png}
+\caption{CLARA Clustering Visualization for SMOTE-TOMEK Dataset ($k=2$). Left: Predicted clusters with medoids marked as red crosses. Center: True class labels for comparison. Right: Cluster size distribution showing balanced partitioning.}
+% \label{fig:clara_clusters_smote}
+\end{figure}
+
+
+\subsection{Bayesian Optimization}
+
+\subsection{Tomek dataset}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{images/Clarans/bayesopt/bayesian_optimization_tomek.png}
+\caption{Bayesian Optimization Progress for TOMEK Dataset. Top row: Evolution of clustering metrics across 30 iterations. Bottom row: Parameter impact on Silhouette Score, parameter correlation heatmap, and top 5 configurations. The algorithm rapidly converged to $k=2$ after exploring higher values of $k$ in early iterations.}
+\end{figure}
+
+\subsection{Smote-Tomek dataset}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{images/Clarans/bayesopt/bayesian_optimization_smote-tomek.png}
+\caption{Bayesian Optimization Progress for SMOTE-TOMEK Dataset. Top row: Evolution of clustering metrics across 30 iterations. Bottom row: Parameter impact on Silhouette Score, parameter correlation heatmap, and top 5 configurations. The algorithm rapidly converged to $k=2$ after exploring higher values of $k$ in early iterations.}
+\end{figure}
+
+\subsection{Comparison of all datasets}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.6\textwidth]{images/Clarans/bayesopt/bayesian_comparison_all_datasets.png}
+\caption{Performance Comparison of Bayesian Optimization Across Resampling Methods.}
+\end{figure}
