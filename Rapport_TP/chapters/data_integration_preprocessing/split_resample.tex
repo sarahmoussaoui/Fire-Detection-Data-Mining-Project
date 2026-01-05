@@ -7,7 +7,8 @@ The Resampling Strategies for Class Imbalance where explained in Annex~\ref{anne
 
 \subsubsection{Motivation: Class Imbalance in Wildfire Prediction}
 
-The wildfire occurrence variable exhibits a strong class imbalance, with non-fire observations largely dominating fire events. This imbalance is typical in environmental risk modeling and can severely bias supervised learning algorithms toward the majority class, resulting in poor detection of rare but critical events such as wildfires \cite{he_imbalanced, japkowicz2002class}.
+The wildfire occurrence variable exhibits a strong class imbalance, with non-fire observations largely dominating fire events. This imbalance is typical in environmental risk modeling and can severely bias supervised learning algorithms toward the majority class, resulting in poor detection of rare but critical events such as wildfires .
+% \cite{he_imbalanced, japkowicz2002class}.
 
 To address this issue, several resampling techniques were applied \emph{exclusively to the training set}. Validation and test sets were intentionally left unchanged in order to preserve an unbiased evaluation of model generalization. The objective of resampling is to improve the model’s sensitivity to fire occurrences while maintaining meaningful decision boundaries.
 
