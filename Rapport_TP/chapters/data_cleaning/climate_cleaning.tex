@@ -2,6 +2,12 @@
 
 \subsection{Identification of Missing Values}
 
+\begin{figure}[H]
+\centering
+\begin{minipage}[t]{0.55\textwidth}
+\raggedright
+\vspace{0pt}
+
 All three climate datasets contain a small but non-negligible proportion of missing values:
 \begin{itemize}
     \item Precipitation: 0.28\% missing,
@@ -10,13 +16,17 @@ All three climate datasets contain a small but non-negligible proportion of miss
 \end{itemize}
 
 Crucially, missing entries occur on the \emph{same spatial cells} across all three variables, as verified by identical \texttt{cell\_id} sets. Spatial visualization of missing precipitation values (Figure~\ref{fig:missing_spatial}) shows that these gaps are concentrated along the perimeter of the Area of Interest, indicating edge effects caused by raster clipping and grid intersection rather than true data absence.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.28\linewidth]{images/Climate/missing_precipitation_spatial.png}
-    \caption{Spatial distribution of missing precipitation values, concentrated along the AOI boundaries.}
-    \label{fig:missing_spatial}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.4\textwidth}
+\centering
+\vspace{0pt}
+\includegraphics[width=\linewidth]{images/Climate/missing_precipitation_spatial.png}
+\caption{Spatial distribution of missing precipitation values, concentrated along the AOI boundaries.}
+\label{fig:missing_spatial}
+\end{minipage}
 \end{figure}
+
 
 \subsection{Imputation Strategy}
 

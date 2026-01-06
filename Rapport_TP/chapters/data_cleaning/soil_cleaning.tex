@@ -97,17 +97,23 @@ A systematic inspection of all numeric soil attributes revealed that exactly \te
 
 \subsubsection{Detection and Visualization of Invalid Records}
 
+\noindent
+\begin{minipage}[t]{0.56\textwidth}
+\vspace{0pt}
 Initial outlier detection using a generic statistical function (\texttt{detect\_outliers}) reported abnormally high counts of extreme values in several columns, such as approximately 10,961 outliers in gypsum and 9,976 in the C:N ratio. These unexpectedly high numbers suggested a structural issue in the dataset rather than isolated anomalies.
 
 To confirm this hypothesis, each numeric soil variable was explicitly tested for negative values. All critical soil parameters listed above showed the same number of negative entries (5,480), and a cross-check of row indices confirmed that these negative values occurred in the \emph{same set of rows}. These records were therefore classified as globally invalid soil observations.
 
-To assess whether these invalid records were spatially localized or randomly distributed, their geographic distribution was visualized. The soil dataset was converted into a GeoDataFrame using longitude and latitude coordinates, and a spatial scatter map was generated. Valid observations were displayed in light gray, while invalid observations were highlighted in blue (Figure~\ref{fig:invalid_spatial}). This visualization made it possible to evaluate spatial clustering patterns and informed the choice of a spatially aware imputation strategy.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.3\textwidth]{images/Soil/soil_invalid_negative_spatial_distribution.png}
-    \caption{Spatial distribution of invalid soil records with negative values. Valid points are shown in light gray, while invalid points (all key soil properties negative) are highlighted in blue.}\label{fig:invalid_spatial}
-\end{figure}
+To assess whether these invalid records were spatially localized or randomly distributed, their geographic distribution was visualized. The soil dataset was converted into a GeoDataFrame using longitude and latitude coordinates, and a spatial scatter map was generated. Valid observations were displayed in light gray, while invalid observations were highlighted in blue (Figure~\ref{fig:invalid_spatial}).
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.40\textwidth}
+\vspace{0pt}
+\centering
+\includegraphics[width=\linewidth]{images/Soil/soil_invalid_negative_spatial_distribution.png}
+\captionof{figure}{Spatial distribution of invalid soil records with negative values. Valid points are shown in light gray, while invalid points (all key soil properties negative) are highlighted in blue.}
+\label{fig:invalid_spatial}
+\end{minipage}
 
 \subsubsection{Solution: Nearest-Neighbor Imputation of Invalid Values}
 

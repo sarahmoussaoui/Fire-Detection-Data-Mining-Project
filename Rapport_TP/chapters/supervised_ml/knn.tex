@@ -11,41 +11,21 @@ The trained model was evaluated on both validation and test sets using multiple 
 \begin{table}[H]
 \centering
 \caption{KNN performance metrics on validation and test sets}
-\begin{minipage}[t]{0.47\textwidth}
-\centering
-\textbf{Predefined KNN}\\[4pt]
-\begin{tabular}{lcc}
+\begin{tabular}{lcccc}
 \hline
-\textbf{Metric} & \textbf{Validation} & \textbf{Test} \\
+\textbf{Metric} & \multicolumn{2}{c}{\textbf{Predefined KNN}} & \multicolumn{2}{c}{\textbf{From-Scratch KNN}} \\
+\cline{2-5}
+& \textbf{Validation} & \textbf{Test} & \textbf{Validation} & \textbf{Test} \\
 \hline
-Accuracy    & 0.8924 & 0.8852 \\
-Precision   & 0.3082 & 0.2909 \\
-Recall      & 0.6915 & 0.6782 \\
-Specificity & 0.9048 & 0.8980 \\
-F1-score    & 0.4264 & 0.4071 \\
-MCC         & 0.4142 & 0.3939 \\
-ROC-AUC     & 0.8789 & 0.8551 \\
-\hline
-\end{tabular}
-\end{minipage}
-\hfill\hspace{0.03\textwidth}
-\begin{minipage}[t]{0.7\textwidth}
-\centering
-\textbf{From-Scratch KNN}\\[4pt]
-\begin{tabular}{lcc}
-\hline
-\textbf{Metric} & \textbf{Validation} & \textbf{Test} \\
-\hline
-Accuracy      & 0.8873 & 0.8769 \\
-Precision     & 0.3047 & 0.2776 \\
-Recall        & 0.7413 & 0.6980 \\
-Specificity   & 0.8962 & 0.8879 \\
-F1-score      & 0.4319 & 0.3972 \\
-MCC           & 0.4280 & 0.3881 \\
-ROC-AUC       & 0.8852 & 0.8636 \\
+Accuracy    & 0.8924 & 0.8852 & 0.8873 & 0.8769 \\
+Precision   & 0.3082 & 0.2909 & 0.3047 & 0.2776 \\
+Recall      & 0.6915 & 0.6782 & 0.7413 & 0.6980 \\
+Specificity & 0.9048 & 0.8980 & 0.8962 & 0.8879 \\
+F1-score    & 0.4264 & 0.4071 & 0.4319 & 0.3972 \\
+MCC         & 0.4142 & 0.3939 & 0.4280 & 0.3881 \\
+ROC-AUC     & 0.8789 & 0.8551 & 0.8852 & 0.8636 \\
 \hline
 \end{tabular}
-\end{minipage}
 \end{table}
 
 Overall, the results indicate that the KNN model favors \textbf{recall and ROC-AUC}, which is appropriate for fire prediction scenarios where failing to detect a fire event is more critical than generating false positives.
