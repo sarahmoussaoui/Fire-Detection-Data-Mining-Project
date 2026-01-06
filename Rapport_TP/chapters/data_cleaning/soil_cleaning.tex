@@ -49,9 +49,9 @@ Figures~\ref{fig:soil-refbulk-kde} show that the global density shape remains co
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.42\textwidth]{images/Soil/soil_kde_ref_bulk}
+    \includegraphics[width=0.35\textwidth]{images/Soil/soil_kde_ref_bulk}
     \hspace{0.05\textwidth}
-    \includegraphics[width=0.42\textwidth]{images/Soil/soil_kde_ref_bulk_after_imputation}
+    \includegraphics[width=0.35\textwidth]{images/Soil/soil_kde_ref_bulk_after_imputation}
     \caption{Density plot of \texttt{REF\_BULK} before (left) and after (right) median imputation.}\label{fig:soil-refbulk-kde}
 \end{figure}
 
@@ -73,9 +73,9 @@ Figures~\ref{fig:soil-texture-hist} show the distribution before and after imput
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.42\textwidth]{images/Soil/soil_hist_texture_usda}
+    \includegraphics[width=0.35\textwidth]{images/Soil/soil_hist_texture_usda}
     \hspace{0.05\textwidth}
-    \includegraphics[width=0.42\textwidth]{images/Soil/soil_hist_texture_usda_after_imputer}
+    \includegraphics[width=0.35\textwidth]{images/Soil/soil_hist_texture_usda_after_imputer}
     \caption{Histogram of \texttt{TEXTURE\_USDA} before imputation (left, known classes only) and after smart imputation using nearest centroid (right, based on \texttt{SAND}, \texttt{SILT}, \texttt{CLAY}).}\label{fig:soil-texture-hist}
 \end{figure}
 
@@ -97,17 +97,23 @@ A systematic inspection of all numeric soil attributes revealed that exactly \te
 
 \subsubsection{Detection and Visualization of Invalid Records}
 
+\noindent
+\begin{minipage}[t]{0.56\textwidth}
+\vspace{0pt}
 Initial outlier detection using a generic statistical function (\texttt{detect\_outliers}) reported abnormally high counts of extreme values in several columns, such as approximately 10,961 outliers in gypsum and 9,976 in the C:N ratio. These unexpectedly high numbers suggested a structural issue in the dataset rather than isolated anomalies.
 
 To confirm this hypothesis, each numeric soil variable was explicitly tested for negative values. All critical soil parameters listed above showed the same number of negative entries (5,480), and a cross-check of row indices confirmed that these negative values occurred in the \emph{same set of rows}. These records were therefore classified as globally invalid soil observations.
 
-To assess whether these invalid records were spatially localized or randomly distributed, their geographic distribution was visualized. The soil dataset was converted into a GeoDataFrame using longitude and latitude coordinates, and a spatial scatter map was generated. Valid observations were displayed in light gray, while invalid observations were highlighted in blue (Figure~\ref{fig:invalid_spatial}). This visualization made it possible to evaluate spatial clustering patterns and informed the choice of a spatially aware imputation strategy.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.4\textwidth]{images/Soil/soil_invalid_negative_spatial_distribution.png}
-    \caption{Spatial distribution of invalid soil records with negative values. Valid points are shown in light gray, while invalid points (all key soil properties negative) are highlighted in blue.}\label{fig:invalid_spatial}
-\end{figure}
+To assess whether these invalid records were spatially localized or randomly distributed, their geographic distribution was visualized. The soil dataset was converted into a GeoDataFrame using longitude and latitude coordinates, and a spatial scatter map was generated. Valid observations were displayed in light gray, while invalid observations were highlighted in blue (Figure~\ref{fig:invalid_spatial}).
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.40\textwidth}
+\vspace{0pt}
+\centering
+\includegraphics[width=\linewidth]{images/Soil/soil_invalid_negative_spatial_distribution.png}
+\captionof{figure}{Spatial distribution of invalid soil records with negative values. Valid points are shown in light gray, while invalid points (all key soil properties negative) are highlighted in blue.}
+\label{fig:invalid_spatial}
+\end{minipage}
 
 \subsubsection{Solution: Nearest-Neighbor Imputation of Invalid Values}
 
@@ -132,7 +138,7 @@ In summary, we detected a large batch of outlier records characterized by imposs
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.7\textwidth]{images/Soil/soil_maps_numeric_variation_after_invalid_imputation}
+    \includegraphics[width=0.65\textwidth]{images/Soil/soil_maps_numeric_variation_after_invalid_imputation}
     \caption{Histograms of soil attributes after nearest-neighbor imputation, showing consistent and physically plausible distributions.}\label{fig:soil_imputation_validation}
 \end{figure}
 The resulting soil property distributions after imputation are shown in Annex~\ref{annexe:soil-cleaning-summary}, confirming that all variables now exhibit realistic ranges and shapes without negative values.
@@ -142,34 +148,26 @@ Using an interquartile-range (IQR)-based detector, the following number of outli
 
 \begin{table}[H]
 \centering
-\begin{tabular}{lr}
+\begin{tabular}{l r l r}
 \toprule
-\textbf{Variable} & \textbf{Outlier Count} \\
+\textbf{Variable} & \textbf{Outliers} & \textbf{Variable} & \textbf{Outliers} \\
 \midrule
-COARSE & 28 \\
-SAND & 12 \\
-SILT & 0 \\
-CLAY & 53 \\
-BULK & 341 \\
-REF\_BULK & 969 \\
-ORG\_CARBON & 2897 \\
-PH\_WATER & 272 \\
-TOTAL\_N & 190 \\
-CN\_RATIO & 1 \\
-CEC\_SOIL & 53 \\
-CEC\_CLAY & 0 \\
-CEC\_EFF & 506 \\
-TEB & 506 \\
-BSAT & 11 \\
-ALUM\_SAT & 28 \\
-ESP & 4095 \\
-TCARBON\_EQ & 0 \\
-GYPSUM & 1182 \\
-ELEC\_COND & 5973 \\
+COARSE        & 28   & BSAT         & 11   \\
+SAND          & 12   & ALUM\_SAT    & 28   \\
+SILT          & 0    & ESP          & 4095 \\
+CLAY          & 53   & TCARBON\_EQ  & 0    \\
+BULK          & 341  & GYPSUM       & 1182 \\
+REF\_BULK     & 969  & ELEC\_COND   & 5973 \\
+ORG\_CARBON   & 2897 & CEC\_SOIL    & 53   \\
+PH\_WATER     & 272  & CEC\_CLAY    & 0    \\
+TOTAL\_N      & 190  & CEC\_EFF     & 506  \\
+CN\_RATIO     & 1    & TEB          & 506  \\
 \bottomrule
 \end{tabular}
-\caption{Count of statistical outliers detected by IQR-based method after imputation.}\label{tab:outlier_counts}
+\caption{Count of statistical outliers detected using the IQR-based method after imputation.}
+\label{tab:outlier_counts}
 \end{table}
+
 
 The high outlier counts observed in salinity- and chemistry-related variables (ESP, ELEC\_COND, GYPSUM, ORG\_CARBON) are consistent with arid and semi-arid soil environments, where strong spatial gradients and extreme values are common.
 
@@ -221,7 +219,7 @@ Because both texture variables are deterministic functions of the same base frac
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.45\textwidth]{images/Soil/soil_parallel_coordinates_texture.png}
+\includegraphics[width=0.55\textwidth]{images/Soil/soil_parallel_coordinates_texture.png}
 \caption{Parallel coordinates of particle-size fractions grouped by \texttt{TEXTURE\_USDA} (left) and \texttt{TEXTURE\_SOTER} (right), showing that both texture classes are deterministic encodings of sand, silt, and clay composition.}\label{fig:texture_parallel}
 \end{figure}
 
@@ -238,7 +236,7 @@ Minor deviations from the identity line are attributable to rounding effects and
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.45\textwidth]{images/Soil/soil_ORG_CARBON_per_TOTAL_N_vs_CN_RATIO_scatter_qq.png}
+\includegraphics[width=0.55\textwidth]{images/Soil/soil_ORG_CARBON_per_TOTAL_N_vs_CN_RATIO_scatter_qq.png}
 \caption{Scatter and Q-Q plots comparing \texttt{CN\_RATIO} to the recomputed ratio \texttt{ORG\_CARBON / TOTAL\_N}, confirming a near-deterministic relationship.}\label{fig:cn_ratio}
 \end{figure}
 
@@ -256,7 +254,7 @@ This variability reflects the influence of additional factors such as organic ma
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.45\textwidth]{images/Soil/soil_CEC_SOIL_per_CLAY_vs_CEC_CLAY_scatter_qq.png}
+\includegraphics[width=0.55\textwidth]{images/Soil/soil_CEC_SOIL_per_CLAY_vs_CEC_CLAY_scatter_qq.png}
 \caption{Scatter and Q-Q plots comparing \texttt{CEC\_SOIL\_per\_CLAY} with observed \texttt{CEC\_CLAY}, showing substantial deviation from a one-to-one relationship.}\label{fig:cec_clay}
 \end{figure}
 
@@ -273,7 +271,7 @@ Accordingly, \texttt{BSAT} was removed from the feature set to avoid redundancy 
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.45\textwidth]{images/Soil/soil_TEB_per_CEC_EFF_vs_BSAT_scatter_qq.png}
+\includegraphics[width=0.55\textwidth]{images/Soil/soil_TEB_per_CEC_EFF_vs_BSAT_scatter_qq.png}
 \caption{Scatter and Q-Q plots illustrating the strong dependency between \texttt{BSAT} and the computed ratio \texttt{TEB / CEC\_EFF}.}\label{fig:bsat}
 \end{figure}
 

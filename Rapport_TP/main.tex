@@ -59,15 +59,29 @@
 \begin{document}
 % --------------------------------------------------------------------
 
+% -------------------------------------------------
+% Cover page (no page number, no header/footer)
+% -------------------------------------------------
+\pagenumbering{gobble}
+\pagestyle{empty}
 \input{cover_page.tex}
+
+% -------------------------------------------------
+% Summary / TOC (Roman numbering, page number only)
+% -------------------------------------------------
+\clearpage
+\pagenumbering{roman}
+\pagestyle{plain}
 \tableofcontents
 
-% --------------------------------------------------------------------
-% Chapters
-% --------------------------------------------------------------------
+% -------------------------------------------------
+% Main content (Arabic numbering starts at 1)
+% -------------------------------------------------
 \clearpage
 \pagenumbering{arabic}
 \setcounter{page}{1}
+\pagestyle{fancy}
+
 
 \chapter{Data Extraction}
 \input{chapters/data_extraction/data_extraction}
@@ -89,17 +103,21 @@
 \chapter{Unsupervised Machine Learning}
 \input{chapters/unsupervised_ml/unsupervised_ml}
 
+% -------------------------------------------------
+% Appendices (no page numbers if you want)
+% -------------------------------------------------
 \clearpage
 \pagenumbering{gobble}
 \pagestyle{empty}
-
-% --------------------------------------------------------------------
 \appendix
 \input{Annexes/general_annex.tex}
 
-
-% --------------------------------------------------------------------
-\bibliographystyle{plainnat}   % or plain, ieeetr, etc.
-\bibliography{references/dalia_references.bib}   % references.bib should exist
+% -------------------------------------------------
+% Bibliography (numbered or not – your choice)
+% -------------------------------------------------
+\clearpage
+\pagenumbering{arabic}
+\bibliographystyle{plainnat}
+\bibliography{references/dalia_references.bib}
 
 \end{document}

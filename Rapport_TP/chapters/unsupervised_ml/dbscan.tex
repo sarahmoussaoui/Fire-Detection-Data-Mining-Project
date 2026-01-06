@@ -12,42 +12,24 @@ This optimized configuration increased cluster granularity and separation compar
 
 \subsection{DBSCAN Performance Metrics}
 
-\paragraph{Library-Based DBSCAN (Default vs Optimized)}
 \begin{table}[H]
 \centering
-\caption{DBSCAN metrics comparison using default and Bayesian-optimized parameters}
-\begin{tabular}{lcc}
+\caption{DBSCAN metrics comparison across default, optimized, and from-scratch implementations}
+\begin{tabular}{lccccc}
 \hline
-\textbf{Metric} & \textbf{Default} & \textbf{Optimized} \\
+\textbf{Metric} & \textbf{Default} & \textbf{Optimized} & \multicolumn{2}{c}{\textbf{From-Scratch}} \\
+\cline{4-5}
+& & & \textbf{Validation} & \textbf{Test} \\
 \hline
-$\varepsilon$              & 2.8000 & 0.8207 \\
-min\_samples               & 15     & 40     \\
-Number of clusters         & 5      & 11     \\
-Noise ratio (\%)           & 0.07   & 9.21   \\
-Silhouette score           & -0.2686 & -0.2268 \\
-Davies--Bouldin index      & 2.3095 & 2.3344 \\
-Calinski--Harabasz index   & 360318.48 & 199812.16 \\
-AMI                        & 0.0175 & 0.0414 \\
-ARI                        & 0.0872 & 0.0220 \\
-\hline
-\end{tabular}
-\end{table}
-
-\paragraph{From-Scratch DBSCAN Results}
-\begin{table}[H]
-\centering
-\caption{From-scratch DBSCAN metrics on validation and test sets}
-\begin{tabular}{lcc}
-\hline
-\textbf{Metric} & \textbf{Validation} & \textbf{Test} \\
-\hline
-Number of clusters        & 6      & 5      \\
-Noise ratio (\%)          & 22.17  & 22.46  \\
-Silhouette score          & -0.1811 & -0.0038 \\
-Davies--Bouldin index     & 5.7928 & 4.4261 \\
-Calinski--Harabasz index  & 931.19 & 1133.32 \\
-AMI                       & 0.0293 & 0.0335 \\
-ARI                       & -0.0014 & 0.0054 \\
+$\varepsilon$              & 2.8000 & 0.8207 & - & - \\
+min\_samples               & 15     & 40     & - & - \\
+Number of clusters         & 5      & 11     & 6 & 5 \\
+Noise ratio (\%)           & 0.07   & 9.21   & 22.17 & 22.46 \\
+Silhouette score           & -0.2686 & -0.2268 & -0.1811 & -0.0038 \\
+Davies--Bouldin index      & 2.3095 & 2.3344 & 5.7928 & 4.4261 \\
+Calinski--Harabasz index   & 360318.48 & 199812.16 & 931.19 & 1133.32 \\
+AMI                        & 0.0175 & 0.0414 & 0.0293 & 0.0335 \\
+ARI                        & 0.0872 & 0.0220 & -0.0014 & 0.0054 \\
 \hline
 \end{tabular}
 \end{table}
