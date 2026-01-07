@@ -10,25 +10,6 @@
 
 The analysis began by loading the datasets for Algeria (\texttt{df\_fire\_dza}) and Tunisia (\texttt{df\_fire\_tun}). An initial exploratory inspection was performed using descriptive statistics to assess the distribution and range of key numerical variables, including fire radiative power (\texttt{frp}) and brightness temperatures. Data quality was verified by examining data types, memory usage, and the proportion of missing values, confirming structural consistency and integrity across both datasets. Finally, the two datasets were merged using \texttt{pd.concat()} into a single GeoDataFrame (\texttt{df\_fire}), enabling unified regional analysis.
 
-\subsection{Variable Definitions and Geospatial Metrics}
-
-Understanding the physical meaning of the VIIRS variables is critical for interpreting the visualizations. The following table summarizes key columns used in the analysis:
-
-\begin{table}[H]
-    \centering
-    \caption{Summary of Key VIIRS Fire Dataset Variables}\label{tab:viirs_variables}
-    \begin{tabular}{llc}
-    \toprule
-    \textbf{Variable} & \textbf{Meaning} & \textbf{Unit} \\
-    \midrule
-    \texttt{bright\_ti4} & Brightness temp., Band M13 ($4\,\mu\text{m}$) & Kelvin (K) \\
-    \texttt{bright\_ti5} & Brightness temp., Band M15 ($11\,\mu\text{m}$) & Kelvin (K) \\
-    \texttt{frp} & Fire Radiative Power & Megawatts (MW) \\
-    \texttt{scan} & Pixel size in scan (E-W) direction & Degrees \\
-    \texttt{track} & Pixel size in along-track (N-S) direction & Degrees \\
-    \bottomrule
-    \end{tabular}
-\end{table}
 
 \subsection{Exploratory Data Analysis (EDA) and Visualization}
 
@@ -41,27 +22,6 @@ Understanding the physical meaning of the VIIRS variables is critical for interp
 The geospatial distribution of fire events was visualized using a scatter plot of \texttt{longitude} vs.\ \texttt{latitude}, with the color intensity mapped to \texttt{frp}. This visualization is essential for identifying fire clusters and high-intensity regions across the combined study area.
 As shown in the map, the majority of fire points are concentrated in the northern regions, reflecting higher vegetation density and more favorable climatic conditions for fire occurrence compared to the arid southern areas
 
-\paragraph{Feature Distribution and Correlation}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.5\textwidth]{\detokenize{images/Fire/distribution of numerical columns.png}}
-    \caption{Histograms illustrating the distribution of key numerical variables (\texttt{latitude}, \texttt{longitude}, \texttt{bright\_ti4}, \texttt{frp}, \texttt{scan}, \texttt{track}, \texttt{bright\_ti5}) in the merged fire dataset.}\label{fig:histograms}
-\end{figure}
-
-The distributions of the numerical columns were visualized using histograms, revealing a heavily left-skewed distribution for intensity variable \texttt{frp}, indicating that most fire detections are of low power with few extreme events, which confirms what has been shown in the previous scatter plot frp map.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.5\textwidth]{\detokenize{images/Fire/heatmaps of numerical.png}}
-    \caption{Heatmap of the Pearson correlation matrix for numerical variables. High correlation exists between the brightness temperatures and the pixel dimensions.}\label{fig:heatmap}
-\end{figure}
-
-A correlation matrix heatmap was generated to explore relationships between the numerical features. Key findings include:
-\begin{itemize}
-    \item A very high correlation (Spearman $\rho \approx 0.96$) was observed between \texttt{bright\_ti4} and \texttt{bright\_ti5}, which is expected as both measure thermal radiation from the same source, but in different bands.
-    \item Positive correlations were also noted between \texttt{bright\_ti4}, \texttt{frp}, \texttt{scan}, and \texttt{track}, suggesting that larger or more intense fires (higher \texttt{frp}) often have higher brightness temperatures and are more likely to be detected in larger, more distorted pixels (higher \texttt{scan} and \texttt{track} values).
-\end{itemize}
 
 % \begin{figure} [H]
 %     \centering
