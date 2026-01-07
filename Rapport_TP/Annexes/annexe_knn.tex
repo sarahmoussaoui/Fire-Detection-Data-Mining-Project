@@ -1,11 +1,33 @@
 \section{K-Nearest Neighbors (KNN) Model Visualizations}\label{annexe:knn_visualizations}
 
+\subsubsection{From-Scratch KNN Model Evaluation}
+
+\paragraph{Confusion Matrices (Training, Validation, and Test Sets)}
+The training confusion matrix shows perfect classification, with no false positives or false negatives, indicating complete memorization of the training data. In contrast, the validation and test confusion matrices reveal a more realistic performance. Both sets exhibit a non-negligible number of false positives, while false negatives remain relatively limited. This behavior reflects a model that prioritizes sensitivity to fire events at the expense of precision, a common outcome in imbalanced classification settings. The similarity between validation and test error patterns suggests stable generalization behavior.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{images/KNN/confusion_matrices_initial_from_scratch.png}
+    \caption{Confusion matrices for the from-scratch KNN model.}
+    \label{fig:confusion_matrices_knn_from_scratch}
+\end{figure}
+
+\paragraph{ROC Curve Analysis}
+The ROC curves further confirm these observations. The training ROC curve achieves an AUC of 1.00, reinforcing the presence of overfitting. However, the validation and test ROC curves achieve AUC values of approximately 0.885 and 0.864, respectively, indicating good discriminative ability on unseen data. Both curves remain well above the random classifier baseline, demonstrating that the from-scratch KNN model effectively ranks fire-prone and non-fire observations despite reduced threshold-dependent performance.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{images/KNN/roc_curves_initial_from_scratch.png}
+    \caption{ROC curves for the from-scratch KNN model.}
+    \label{fig:roc_curves_knn_from_scratch}
+\end{figure}
+
 \subsubsection{KNN Model Performance Metrics}
 Training performance is perfect across all metrics, indicating clear overfitting. Validation and test accuracy remain high; however, precision and F1-score are substantially lower due to class imbalance. Recall is moderate, while specificity remains high, showing strong performance on the majority class. MCC values indicate limited but non-random predictive capability on unseen data.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\linewidth]{images/KNN/metrics_comparison_KNN_predefined.png}
+    \includegraphics[width=0.65\linewidth]{images/KNN/metrics_comparison_KNN_predefined.png}
     \caption{Comparison of performance metrics for the predefined KNN model.}
     \label{fig:metrics_comparison_knn_predefined}
 \end{figure}
@@ -14,7 +36,7 @@ Training performance is perfect across all metrics, indicating clear overfitting
 The training confusion matrix shows perfect classification with no errors. Validation and test matrices exhibit a limited number of false negatives and a higher number of false positives, leading to reduced precision but acceptable recall. Error patterns are consistent across validation and test sets.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\linewidth]{images/KNN/confusion_matrices_KNN_predefined.png}
+    \includegraphics[width=0.75\linewidth]{images/KNN/confusion_matrices_KNN_predefined.png}
     \caption{Confusion matrices for the predefined KNN model.}
     \label{fig:confusion_matrices_knn_predefined}
 \end{figure}
@@ -33,7 +55,7 @@ The training ROC curve achieves an AUC of 1.00, confirming overfitting. Validati
 Increasing the classification threshold results in decreasing recall and increasing precision and specificity. The F1-score and MCC reach their maximum values near the selected threshold of 0.50. False negatives increase with higher thresholds, highlighting the cost of conservative decision boundaries.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\linewidth]{images/KNN/threshold_optimization_bayesian_KNN_predefined.png}
+    \includegraphics[width=0.65\linewidth]{images/KNN/threshold_optimization_bayesian_KNN_predefined.png}
     \caption{Bayesian threshold optimization results for the predefined KNN model.}
     \label{fig:threshold_optimization_knn_predefined}
 \end{figure}
@@ -46,7 +68,7 @@ Bayesian optimization yields marginal improvements in accuracy, specificity, pre
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\linewidth]{images/KNN/predefined_vs_optimized_comparison_KNN.png}
+    \includegraphics[width=0.60\linewidth]{images/KNN/predefined_vs_optimized_comparison_KNN.png}
     \caption{Comparison of performance metrics between predefined and Bayesian optimized KNN models.}
     \label{fig:metrics_comparison_knn_predefined_vs_bayesian}
 \end{figure}
@@ -56,7 +78,7 @@ The Bayesian optimization process converges rapidly, with F1-score stabilizing e
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\linewidth]{images/KNN/bayesian_optimization_history_KNN.png}
+    \includegraphics[width=0.60\linewidth]{images/KNN/bayesian_optimization_history_KNN.png}
     \caption{Bayesian optimization process for the predefined KNN model.}
     \label{fig:bayesian_optimization_knn_predefined}
 \end{figure}
